@@ -8,6 +8,11 @@
     "HorseScreenHandlerMixin",
     "HorseScreenMixin"
   ],
+  "client": [
+    "render.AbstractHorseEntityRendererMixin",
+    "render.EntityModelLayersMixin",
+    "render.EntityModelsMixin"
+  ],
   "injectors": {
     "defaultRequire": 1
   }
