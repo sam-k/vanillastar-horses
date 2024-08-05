@@ -3,6 +3,7 @@ package com.vanillastar.vshorses.mixin;
 import com.vanillastar.vshorses.entity.VSHorseEntity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -115,6 +116,18 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity implements V
         this.vshorses$getHorseshoeInInventory().isOf(HORSESHOE_ITEM)
       );
     }
+  }
+
+  @Inject(
+    method = "createBaseHorseAttributes",
+    at = @At(value = "RETURN"),
+    cancellable = true
+  )
+  private static void addWaterMovementEfficiencyAttribute(
+    @NotNull CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir
+  ) {
+    cir.setReturnValue(cir.getReturnValue()
+      .add(EntityAttributes.GENERIC_WATER_MOVEMENT_EFFICIENCY, 0.3D));
   }
 
   @Inject(
