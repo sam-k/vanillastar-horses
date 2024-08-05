@@ -1,4 +1,4 @@
-package com.vanillastar.vshorses.mixin;
+package com.vanillastar.vshorses.mixin.entity;
 
 import com.vanillastar.vshorses.entity.VSHorseEntity;
 import net.minecraft.entity.EntityType;
@@ -69,7 +69,7 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity implements V
   @Shadow
   public abstract int getInventorySize();
 
-  protected AbstractHorseEntityMixin(
+  private AbstractHorseEntityMixin(
     EntityType<? extends AnimalEntity> entityType, World world
   ) {
     super(entityType, world);

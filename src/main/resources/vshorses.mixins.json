@@ -3,15 +3,15 @@
   "package": "com.vanillastar.vshorses.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
-    "AbstractHorseEntityMixin",
-    "DispenserBehaviorMixin",
-    "HorseScreenHandlerMixin",
-    "HorseScreenMixin"
+    "block.DispenserBehaviorMixin",
+    "entity.AbstractHorseEntityMixin",
+    "screen.HorseScreenHandlerMixin"
   ],
   "client": [
     "render.AbstractHorseEntityRendererMixin",
     "render.EntityModelLayersMixin",
-    "render.EntityModelsMixin"
+    "render.EntityModelsMixin",
+    "screen.HorseScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,4 +1,4 @@
-package com.vanillastar.vshorses.mixin;
+package com.vanillastar.vshorses.mixin.screen;
 
 import com.vanillastar.vshorses.entity.VSHorseEntity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
@@ -20,7 +20,7 @@ import static com.vanillastar.vshorses.utils.ScreenHelperKt.INVENTORY_SLOT_SIZE_
 
 @Mixin(HorseScreenHandler.class)
 public abstract class HorseScreenHandlerMixin extends ScreenHandler {
-  protected HorseScreenHandlerMixin(
+  private HorseScreenHandlerMixin(
     @Nullable ScreenHandlerType<HorseScreenHandler> type, int syncId
   ) {
     super(type, syncId);

@@ -1,4 +1,4 @@
-package com.vanillastar.vshorses.mixin;
+package com.vanillastar.vshorses.mixin.block;
 
 import com.vanillastar.vshorses.entity.VSHorseEntity;
 import net.minecraft.block.DispenserBlock;
