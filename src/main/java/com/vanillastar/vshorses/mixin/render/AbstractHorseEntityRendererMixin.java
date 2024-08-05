@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(AbstractHorseEntityRenderer.class)
 @Environment(EnvType.CLIENT)
 public abstract class AbstractHorseEntityRendererMixin<TEntity extends AbstractHorseEntity, TModel extends HorseEntityModel<TEntity>> extends MobEntityRenderer<TEntity, TModel> {
-  AbstractHorseEntityRendererMixin(
+  private AbstractHorseEntityRendererMixin(
     EntityRendererFactory.Context ctx, TModel model, float scale
   ) {
     super(ctx, model, scale);

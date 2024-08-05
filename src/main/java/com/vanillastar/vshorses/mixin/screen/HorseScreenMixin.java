@@ -1,6 +1,8 @@
-package com.vanillastar.vshorses.mixin;
+package com.vanillastar.vshorses.mixin.screen;
 
 import com.vanillastar.vshorses.entity.VSHorseEntity;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.HorseScreen;
@@ -22,6 +24,7 @@ import static com.vanillastar.vshorses.utils.IdentiferHelperKt.getModIdentifier;
 import static com.vanillastar.vshorses.utils.ScreenHelperKt.INVENTORY_SLOT_SIZE_PX;
 
 @Mixin(HorseScreen.class)
+@Environment(EnvType.CLIENT)
 public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler> {
   /**
    * ID for the texture sprite of the horse inventory screen's horseshoe slot.
@@ -34,7 +37,7 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
   @Final
   private AbstractHorseEntity entity;
 
-  public HorseScreenMixin(
+  private HorseScreenMixin(
     HorseScreenHandler handler, PlayerInventory inventory, Text title
   ) {
     super(handler, inventory, title);
