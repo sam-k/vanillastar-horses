@@ -123,9 +123,9 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity implements V
   private static void getShoeableInventorySize(
     int columns, @NotNull CallbackInfoReturnable<Integer> cir
   ) {
-    // This makes all AbstractHorseEntity's have inventory space for horseshoes,
-    // but this is less painful than modifying this static method to read the
-    // instance's EntityType.
+    // This makes all `AbstractHorseEntity`'s have inventory space for
+    // horseshoes, but this is less painful than modifying this static method to
+    // read the instance's `EntityType`.
     cir.setReturnValue(cir.getReturnValue() + 1);
     cir.cancel();
   }
@@ -149,8 +149,8 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity implements V
 
     speedAttributeInstance.addTemporaryModifier(HORSESHOE_ITEM.getSpeedModifierWithId(
       HORSESHOE_SPEED_MODIFIER_ID));
-    // Same hack as in AbstractHorseEntity.onInventoryChanged to suppress sound
-    // playback upon entity initialization.
+    // Same hack as in `AbstractHorseEntity.onInventoryChanged` to suppress
+    // sound playback upon entity initialization.
     if (this.age > 20) {
       this.playSound(EQUIP_HORSESHOE_SOUND, 0.5F, 1.0F);
     }
