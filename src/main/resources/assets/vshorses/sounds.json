@@ -1,0 +1,8 @@
+{
+  "equip_horseshoe": {
+    "subtitle": "subtitles.vshorses.equip_horseshoe",
+    "sounds": [
+      "vshorses:equip_horseshoe"
+    ]
+  }
+}
