@@ -9,12 +9,15 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
@@ -53,6 +56,20 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity implements V
   @Unique
   private static final Identifier HORSESHOE_SPEED_MODIFIER_ID =
     getModIdentifier("horseshoe_boost");
+
+  /**
+   * Number of ticks of travel each horseshoe durability point affords.
+   */
+  @Unique
+  private static final int TICKS_PER_HORSESHOE_DAMAGE = 20 * 10;
+
+  /**
+   * Number of ticks this entity has been moving while ridden.
+   * <p>
+   * This is reset to 0 every {@code TICKS_PER_HORSESHOE_DAMAGE}.
+   */
+  @Unique
+  private int movingWhileRiddenTicks = 0;
 
   @Shadow
   protected SimpleInventory items;
@@ -166,6 +183,37 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity implements V
     // sound playback upon entity initialization.
     if (this.age > 20) {
       this.playSound(EQUIP_HORSESHOE_SOUND, 0.5F, 1.0F);
+    }
+  }
+
+  @Inject(method = "tickControlled", at = @At("TAIL"))
+  private void damageHorseshoeOnTickControlled(
+    @NotNull PlayerEntity controllingPlayer,
+    @NotNull Vec3d movementInput,
+    CallbackInfo ci
+  ) {
+    if (!(this.getWorld() instanceof ServerWorld serverWorld) ||
+      !isHorselike(this) ||
+      !this.vshorses$isShoed()) {
+      return;
+    }
+    if (controllingPlayer.forwardSpeed == 0.0F &&
+      controllingPlayer.sidewaysSpeed == 0.0F) {
+      // Entity is not being directed to move.
+      return;
+    }
+
+    movingWhileRiddenTicks =
+      (movingWhileRiddenTicks + 1) % TICKS_PER_HORSESHOE_DAMAGE;
+    if (movingWhileRiddenTicks == 0) {
+      this.vshorses$getHorseshoeInInventory()
+        .damage(1, serverWorld, null, item -> {
+          // Volume and pitch from `LivingEntity.playEquipmentBreakEffects`.
+          this.playSound(item.getBreakSound(),
+            0.8F,
+            0.8F + this.getWorld().random.nextFloat() * 0.4F
+          );
+        });
     }
   }
 

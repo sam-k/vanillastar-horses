@@ -14,6 +14,7 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
 import net.minecraft.item.ItemGroups
 import net.minecraft.item.ItemStack
+import net.minecraft.item.Items
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.util.ActionResult
@@ -73,6 +74,9 @@ val HORSESHOE_ITEM = object: HorseshoeItem() {
     }
     return ActionResult.success(user.world.isClient)
   }
+
+  override fun canRepair(stack: ItemStack, ingredient: ItemStack) =
+    ingredient.isOf(Items.COPPER_INGOT)
 
   override fun isEnchantable(stack: ItemStack) = true
 
