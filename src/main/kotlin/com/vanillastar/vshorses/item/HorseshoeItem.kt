@@ -5,10 +5,14 @@ import com.vanillastar.vshorses.entity.VSHorseEntity
 import com.vanillastar.vshorses.entity.isHorselike
 import com.vanillastar.vshorses.utils.getModIdentifier
 import net.fabricmc.fabric.api.item.v1.EnchantingContext
+import net.minecraft.component.type.AttributeModifierSlot
+import net.minecraft.component.type.AttributeModifiersComponent
 import net.minecraft.enchantment.Enchantment
 import net.minecraft.enchantment.Enchantments
+import net.minecraft.entity.EquipmentSlot
 import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributeModifier
+import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
 import net.minecraft.item.Item
 import net.minecraft.item.ItemGroup
@@ -19,22 +23,28 @@ import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
-import net.minecraft.util.Identifier
 import net.minecraft.world.event.GameEvent
 import kotlin.jvm.optionals.getOrNull
 
+/** Modifiers to apply when horseshoe is equipped. */
+private val HORSESHOE_ITEM_MODIFIERS =
+  AttributeModifiersComponent.builder().add(
+    EntityAttributes.GENERIC_MOVEMENT_SPEED, EntityAttributeModifier(
+      getModIdentifier("horseshoe_speed_boost"),
+      0.15,
+      EntityAttributeModifier.Operation.ADD_VALUE
+    ), AttributeModifierSlot.FEET
+  ).build()
+
 abstract class HorseshoeItem: ModItem, Item(
   Settings().maxDamage(195)  // Same as iron boots
+    .attributeModifiers(HORSESHOE_ITEM_MODIFIERS)
 ) {
   override val id = getModIdentifier("horseshoe")
   override val itemGroup: RegistryKey<ItemGroup> = ItemGroups.COMBAT
 
-  /**
-   * Creates modifier for making horses faster when horseshoe is equipped.
-   */
-  fun getSpeedModifierWithId(id: Identifier) = EntityAttributeModifier(
-    id, 0.15, EntityAttributeModifier.Operation.ADD_VALUE
-  )
+  /** Equipment slot this item belongs in. */
+  val equipmentSlot = EquipmentSlot.FEET
 }
 
 @JvmField
@@ -69,7 +79,7 @@ val HORSESHOE_ITEM = object: HorseshoeItem() {
     }
 
     if (!user.world.isClient) {
-      entity.`vshorses$setHorseshoeInInventory`(stack.split(1))
+      entity.`vshorses$getHorseshoeInventory`().stack = stack.split(1)
       entity.world.emitGameEvent(entity, GameEvent.EQUIP, entity.pos)
     }
     return ActionResult.success(user.world.isClient)
