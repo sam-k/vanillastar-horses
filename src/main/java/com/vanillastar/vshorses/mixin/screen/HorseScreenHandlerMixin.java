@@ -70,6 +70,7 @@ public abstract class HorseScreenHandlerMixin extends ScreenHandler {
     this.addSlot(new ArmorSlot(vsHorseEntity.vshorses$getHorseshoeInventory(),
       entity,
       EquipmentSlot.FEET,
+      // This is a pseudo-inventory with size 1, so 0 is the only index.
       0,
       8,
       INVENTORY_SLOT_SIZE_PX *

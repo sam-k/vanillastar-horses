@@ -6,8 +6,8 @@ import net.minecraft.inventory.SingleStackInventory
 @Suppress("FunctionName")  // Mixin method name convention
 interface VSHorseEntity {
   /**
-   * Gets the 0-indexed slot at which the horseshoe slot in the entity's
-   * inventory screen is set.
+   * Gets the 0-indexed slot at which to **set** the horseshoe slot in the
+   * entity's inventory screen.
    *
    * For example, a horse's inventory screen will have saddle set at 0,
    * horse armor at 1, and horseshoe at 2. Same for a donkey's, even though
@@ -17,8 +17,8 @@ interface VSHorseEntity {
   fun `vshorses$getHorseshoeScreenSlot`(): Int
 
   /**
-   * Gets the 0-indexed slot at which to draw the horseshoe slot in the entity's
-   * inventory screen.
+   * Gets the 0-indexed slot at which to **draw** the horseshoe slot in the
+   * entity's inventory screen.
    *
    * For example, a horse's inventory screen will have saddle drawn at 0, horse
    * armor at 1, and horseshoe at 2. A donkey's will have saddle drawn at 0 and
