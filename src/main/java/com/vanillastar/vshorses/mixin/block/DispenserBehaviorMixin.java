@@ -44,8 +44,8 @@ public interface DispenserBehaviorMixin {
           if (candidates.isEmpty()) {
             return super.dispenseSilently(pointer, stack);
           }
-          ((VSHorseEntity) candidates.getFirst()).vshorses$setHorseshoeInInventory(
-            stack.split(1));
+          ((VSHorseEntity) candidates.getFirst()).vshorses$getHorseshoeInventory()
+            .setStack(stack.split(1));
           this.setSuccess(true);
           return stack;
         }

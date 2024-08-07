@@ -64,13 +64,9 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
       return;
     }
 
-    int screenSlot = vsHorseEntity.vshorses$getHorseshoeScreenSlot();
-    context.drawGuiTexture(
-      HORSESHOE_SLOT_SPRITE_ID,
-      i + 7,
-      j + (INVENTORY_SLOT_SIZE_PX * (screenSlot + 1)) - 1,
-      INVENTORY_SLOT_SIZE_PX,
-      INVENTORY_SLOT_SIZE_PX
-    );
+    context.drawGuiTexture(HORSESHOE_SLOT_SPRITE_ID, i + 7, j + (
+      INVENTORY_SLOT_SIZE_PX *
+        (vsHorseEntity.vshorses$getHorseshoeScreenDrawSlot() + 1)
+    ) - 1, INVENTORY_SLOT_SIZE_PX, INVENTORY_SLOT_SIZE_PX);
   }
 }
