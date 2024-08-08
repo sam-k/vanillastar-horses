@@ -5,6 +5,8 @@
   "mixins": [
     "block.DispenserBehaviorMixin",
     "entity.AbstractHorseEntityMixin",
+    "item.AnimalArmorItemMixin",
+    "item.ItemsMixin",
     "screen.HorseScreenHandlerMixin"
   ],
   "client": [

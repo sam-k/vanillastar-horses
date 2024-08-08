@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -131,6 +132,11 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity implements V
     return this.horseshoeInventory.getStack().isOf(HORSESHOE_ITEM);
   }
 
+  @Override
+  public void damageArmor(DamageSource source, float amount) {
+    this.damageEquipment(source, amount, EquipmentSlot.BODY);
+  }
+
   @Inject(
     method = "createBaseHorseAttributes",
     at = @At(value = "RETURN"),
@@ -149,7 +155,7 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity implements V
     @NotNull Vec3d movementInput,
     CallbackInfo ci
   ) {
-    if (!(this.getWorld() instanceof ServerWorld serverWorld) ||
+    if (!(this.getWorld() instanceof ServerWorld) ||
       !isHorselike(this) ||
       !this.vshorses$isShoed()) {
       return;
@@ -163,13 +169,7 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity implements V
     movingWhileRiddenTicks =
       (movingWhileRiddenTicks + 1) % TICKS_PER_HORSESHOE_DAMAGE;
     if (movingWhileRiddenTicks == 0) {
-      this.horseshoeInventory.getStack().damage(1, serverWorld, null, item -> {
-        // Volume and pitch from `LivingEntity.playEquipmentBreakEffects`.
-        this.playSound(item.getBreakSound(),
-          0.8F,
-          0.8F + this.getWorld().random.nextFloat() * 0.4F
-        );
-      });
+      this.horseshoeInventory.getStack().damage(1, this, EquipmentSlot.FEET);
     }
   }
 
