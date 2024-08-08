@@ -21,6 +21,7 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.Items
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.entry.RegistryEntry
+import net.minecraft.registry.tag.ItemTags
 import net.minecraft.util.ActionResult
 import net.minecraft.util.Hand
 import net.minecraft.world.event.GameEvent
@@ -49,20 +50,13 @@ abstract class HorseshoeItem: ModItem, Item(
 
 @JvmField
 val HORSESHOE_ITEM = object: HorseshoeItem() {
-  private val primaryEnchantments = ImmutableSet.of(
-    Enchantments.DEPTH_STRIDER,
-    Enchantments.FEATHER_FALLING,
-    Enchantments.UNBREAKING,
-  )
-
-  private val acceptableEnchantments = ImmutableSet.copyOf(
-    setOf(
-      Enchantments.FROST_WALKER,
-      Enchantments.SOUL_SPEED,
-      Enchantments.MENDING,
-      Enchantments.BINDING_CURSE,
-      Enchantments.VANISHING_CURSE,
-    ) union primaryEnchantments
+  /** Enchantments applicable to boots but prohibited on horseshoes. */
+  private val PROHIBITED_BOOTS_ENCHANTMENTS = ImmutableSet.of(
+    Enchantments.PROTECTION,
+    Enchantments.BLAST_PROTECTION,
+    Enchantments.FIRE_PROTECTION,
+    Enchantments.PROJECTILE_PROTECTION,
+    Enchantments.THORNS
   )
 
   override fun useOnEntity(
@@ -96,8 +90,17 @@ val HORSESHOE_ITEM = object: HorseshoeItem() {
     stack: ItemStack,
     enchantment: RegistryEntry<Enchantment>,
     context: EnchantingContext,
-  ) = (when (context) {
-    EnchantingContext.PRIMARY -> primaryEnchantments
-    EnchantingContext.ACCEPTABLE -> acceptableEnchantments
-  }).contains(enchantment.key.getOrNull())
+  ): Boolean {
+    if (PROHIBITED_BOOTS_ENCHANTMENTS.contains(enchantment.key.getOrNull())) {
+      return false
+    }
+
+    val definition = enchantment.value().definition()
+    return (when (context) {
+      EnchantingContext.PRIMARY -> definition.primaryItems()
+        .orElse(definition.supportedItems())
+      EnchantingContext.ACCEPTABLE -> definition.supportedItems()
+    }).stream()
+      .anyMatch { entry -> entry.isIn(ItemTags.FOOT_ARMOR_ENCHANTABLE) }
+  }
 }
