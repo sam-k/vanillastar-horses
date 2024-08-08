@@ -3,6 +3,7 @@ package com.vanillastar.vshorses
 import com.google.common.collect.ImmutableList
 import com.vanillastar.vshorses.entity.EQUIP_HORSESHOE_SOUND
 import com.vanillastar.vshorses.item.HORSESHOE_ITEM
+import com.vanillastar.vshorses.item.NETHERITE_HORSE_ARMOR_ITEM
 import com.vanillastar.vshorses.utils.getLogger
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
@@ -15,7 +16,7 @@ object VSHorses: ModInitializer {
   private val LOGGER = getLogger()
 
   private fun registerItems() {
-    val items = ImmutableList.of(HORSESHOE_ITEM)
+    val items = ImmutableList.of(HORSESHOE_ITEM, NETHERITE_HORSE_ARMOR_ITEM)
     for (item in items) {
       Registry.register(Registries.ITEM, item.id, item)
       ItemGroupEvents.modifyEntriesEvent(item.itemGroup)

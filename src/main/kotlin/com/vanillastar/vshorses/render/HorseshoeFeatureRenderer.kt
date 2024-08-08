@@ -21,7 +21,7 @@ class HorseshoeFeatureRenderer<TEntity: AbstractHorseEntity, TModel: HorseEntity
 ): FeatureRenderer<TEntity, TModel>(context) {
   companion object {
     private val HORSESHOE_SKIN_ID =
-      getModIdentifier("textures/entity/horseshoe.png")
+      getModIdentifier("textures/entity/horse/horseshoe.png")
   }
 
   private val model =
