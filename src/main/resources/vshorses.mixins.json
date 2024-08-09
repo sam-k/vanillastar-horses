@@ -7,6 +7,7 @@
     "entity.AbstractHorseEntityMixin",
     "item.AnimalArmorItemMixin",
     "item.ItemsMixin",
+    "item.SmithingTemplateItemMixin",
     "screen.HorseScreenHandlerMixin"
   ],
   "client": [
