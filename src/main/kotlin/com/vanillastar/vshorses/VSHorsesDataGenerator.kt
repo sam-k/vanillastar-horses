@@ -14,6 +14,7 @@ import net.minecraft.registry.tag.ItemTags
 import java.util.concurrent.CompletableFuture
 
 class VSHorsesDataGenerator: DataGeneratorEntrypoint {
+  /** Auto-generates all trim recipes for all horse armor. */
   private class HorseArmorTrimRecipeProvider(
     output: FabricDataOutput,
     completableFuture: CompletableFuture<WrapperLookup>
