@@ -7,9 +7,11 @@
     "entity.AbstractHorseEntityMixin",
     "item.AnimalArmorItemMixin",
     "item.ItemsMixin",
+    "item.SmithingTemplateItemMixin",
     "screen.HorseScreenHandlerMixin"
   ],
   "client": [
+    "gui.SmithingScreenMixin",
     "render.AbstractHorseEntityRendererMixin",
     "render.EntityModelLayersMixin",
     "render.EntityModelsMixin",

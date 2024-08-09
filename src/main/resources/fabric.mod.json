@@ -10,6 +10,9 @@
   "license": "CC0-1.0",
   "environment": "*",
   "entrypoints": {
+    "fabric-datagen": [
+      "com.vanillastar.vshorses.VSHorsesDataGenerator"
+    ],
     "main": [
       {
         "value": "com.vanillastar.vshorses.VSHorses",
