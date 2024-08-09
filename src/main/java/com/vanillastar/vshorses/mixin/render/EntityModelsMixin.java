@@ -21,12 +21,13 @@ import static com.vanillastar.vshorses.render.HorseshoeModelLayerKt.HORSESHOE_MO
 
 @Mixin(EntityModels.class)
 @Environment(EnvType.CLIENT)
-public class EntityModelsMixin {
+public abstract class EntityModelsMixin {
   @Inject(
     method = "getModels", at = @At(
     value = "INVOKE",
     target = "Lcom/google/common/collect/ImmutableMap$Builder;build()Lcom/google/common/collect/ImmutableMap;",
-    shift = At.Shift.BEFORE
+    shift = At.Shift.BEFORE,
+    remap = false
   ), locals = LocalCapture.CAPTURE_FAILHARD
   )
   private static void addHorseshoeModel(

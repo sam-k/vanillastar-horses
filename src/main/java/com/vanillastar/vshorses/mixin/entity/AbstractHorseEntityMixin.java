@@ -67,7 +67,7 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity implements V
       }
 
       @Override
-      public void setStack(ItemStack stack) {
+      public void setStack(@NotNull ItemStack stack) {
         if (!stack.isEmpty()) {
           // Same hack as in `AbstractHorseEntity.onInventoryChanged` to
           // suppress sound playback upon entity initialization.
@@ -88,7 +88,7 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity implements V
       }
 
       @Override
-      public boolean canPlayerUse(PlayerEntity player) {
+      public boolean canPlayerUse(@NotNull PlayerEntity player) {
         return player.getVehicle() == AbstractHorseEntityMixin.this ||
           player.canInteractWithEntity(AbstractHorseEntityMixin.this, 4.0);
       }
