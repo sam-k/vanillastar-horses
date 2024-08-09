@@ -8,6 +8,7 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.MobEntityRenderer;
 import net.minecraft.client.render.entity.model.HorseEntityModel;
 import net.minecraft.entity.passive.AbstractHorseEntity;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -24,7 +25,7 @@ public abstract class AbstractHorseEntityRendererMixin<TEntity extends AbstractH
 
   @Inject(method = "<init>", at = @At("TAIL"))
   private void addHorseshoeFeatureRenderer(
-    EntityRendererFactory.Context ctx,
+    EntityRendererFactory.@NotNull Context ctx,
     TModel model,
     float scale,
     CallbackInfo ci

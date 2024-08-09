@@ -11,11 +11,11 @@
     "screen.HorseScreenHandlerMixin"
   ],
   "client": [
+    "gui.HorseScreenMixin",
     "gui.SmithingScreenMixin",
     "render.AbstractHorseEntityRendererMixin",
     "render.EntityModelLayersMixin",
-    "render.EntityModelsMixin",
-    "screen.HorseScreenMixin"
+    "render.EntityModelsMixin"
   ],
   "injectors": {
     "defaultRequire": 1

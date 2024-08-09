@@ -1,4 +1,4 @@
-package com.vanillastar.vshorses.mixin.screen;
+package com.vanillastar.vshorses.mixin.gui;
 
 import com.vanillastar.vshorses.entity.VSHorseEntity;
 import net.fabricmc.api.EnvType;
