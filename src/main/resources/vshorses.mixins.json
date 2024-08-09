@@ -11,6 +11,7 @@
     "screen.HorseScreenHandlerMixin"
   ],
   "client": [
+    "gui.SmithingScreenMixin",
     "render.AbstractHorseEntityRendererMixin",
     "render.EntityModelLayersMixin",
     "render.EntityModelsMixin",

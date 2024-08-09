@@ -15,7 +15,7 @@ import java.util.stream.Stream;
 import static com.vanillastar.vshorses.utils.IdentiferHelperKt.getModIdentifier;
 
 @Mixin(SmithingTemplateItem.class)
-public class SmithingTemplateItemMixin {
+public abstract class SmithingTemplateItemMixin {
   @Unique
   private static final Identifier EMPTY_HORSE_ARMOR_SLOT_TEXTURE =
     getModIdentifier("item/empty_horse_armor_slot");
