@@ -43,16 +43,24 @@ class HorseshoeFeatureRenderer<TEntity: AbstractHorseEntity, TModel: HorseEntity
       return
     }
 
-    contextModel.copyStateTo(model)
-    model.animateModel(entity, limbAngle, limbDistance, tickDelta)
-    model.setAngles(
+    this.contextModel.copyStateTo(this.model)
+    this.model.animateModel(entity, limbAngle, limbDistance, tickDelta)
+    this.model.setAngles(
       entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch
     )
-    model.render(
+    this.model.render(
       matrices, vertexConsumers.getBuffer(
         RenderLayer.getEntityCutoutNoCull(HORSESHOE_SKIN_ID)
       ), light, OverlayTexture.DEFAULT_UV
     )
+    if (entity.`vshorses$getHorseshoeInventory`().stack.hasGlint()) {
+      this.model.render(
+        matrices,
+        vertexConsumers.getBuffer(RenderLayer.getEntityGlint()),
+        light,
+        OverlayTexture.DEFAULT_UV
+      )
+    }
   }
 }
 
