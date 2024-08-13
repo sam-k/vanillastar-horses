@@ -1,5 +1,6 @@
 package com.vanillastar.vshorses.mixin.gui;
 
+import com.llamalad7.mixinextras.sugar.Local;
 import com.vanillastar.vshorses.entity.VSHorseEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -18,7 +19,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import static com.vanillastar.vshorses.utils.IdentiferHelperKt.getModIdentifier;
 import static com.vanillastar.vshorses.utils.ScreenHelperKt.INVENTORY_SLOT_SIZE_PX;
@@ -43,19 +43,15 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
     super(handler, inventory, title);
   }
 
-  @Inject(
-    method = "drawBackground",
-    at = @At("TAIL"),
-    locals = LocalCapture.CAPTURE_FAILHARD
-  )
+  @Inject(method = "drawBackground", at = @At("TAIL"))
   private void drawHorseshoeSlot(
     DrawContext context,
     float delta,
     int mouseX,
     int mouseY,
     CallbackInfo ci,
-    int i,
-    int j
+    @Local(ordinal = 2) int i,
+    @Local(ordinal = 3) int j
   ) {
     if (!(
       this.entity instanceof VSHorseEntity vsHorseEntity &&

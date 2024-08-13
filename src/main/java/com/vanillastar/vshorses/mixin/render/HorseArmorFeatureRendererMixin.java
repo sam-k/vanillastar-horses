@@ -1,5 +1,6 @@
 package com.vanillastar.vshorses.mixin.render;
 
+import com.vanillastar.vshorses.render.HorseArmorEntityModel;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.OverlayTexture;
@@ -8,14 +9,16 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.feature.FeatureRenderer;
 import net.minecraft.client.render.entity.feature.FeatureRendererContext;
 import net.minecraft.client.render.entity.feature.HorseArmorFeatureRenderer;
+import net.minecraft.client.render.entity.model.EntityModelLayers;
+import net.minecraft.client.render.entity.model.EntityModelLoader;
 import net.minecraft.client.render.entity.model.HorseEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.HorseEntity;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -25,26 +28,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class HorseArmorFeatureRendererMixin extends FeatureRenderer<HorseEntity, HorseEntityModel<HorseEntity>> {
   @Shadow
   @Final
+  @Mutable
   private HorseEntityModel<HorseEntity> model;
 
   private HorseArmorFeatureRendererMixin(
-    FeatureRendererContext<HorseEntity, HorseEntityModel<HorseEntity>> context
+    FeatureRendererContext<HorseEntity, HorseEntityModel<HorseEntity>> context,
+    @NotNull EntityModelLoader loader
   ) {
     super(context);
-  }
-
-  @Unique
-  private void renderGlint(
-    MatrixStack matrices,
-    @NotNull VertexConsumerProvider vertexConsumers,
-    int light
-  ) {
-    this.model.render(
-      matrices,
-      vertexConsumers.getBuffer(RenderLayer.getEntityGlint()),
-      light,
-      OverlayTexture.DEFAULT_UV
-    );
+    this.model =
+      new HorseArmorEntityModel<>(loader.getModelPart(EntityModelLayers.HORSE_ARMOR));
   }
 
   @Inject(
@@ -55,7 +48,7 @@ public abstract class HorseArmorFeatureRendererMixin extends FeatureRenderer<Hor
       shift = At.Shift.AFTER
     )
   )
-  private void renderTrimAndGlint(
+  private void renderGlint(
     MatrixStack matrices,
     VertexConsumerProvider vertexConsumers,
     int light,
@@ -68,8 +61,14 @@ public abstract class HorseArmorFeatureRendererMixin extends FeatureRenderer<Hor
     float headPitch,
     CallbackInfo ci
   ) {
+    // This fixes https://bugs.mojang.com/browse/MC-16829.
     if (horseEntity.getBodyArmor().hasGlint()) {
-      this.renderGlint(matrices, vertexConsumers, light);
+      this.model.render(
+        matrices,
+        vertexConsumers.getBuffer(RenderLayer.getEntityGlint()),
+        light,
+        OverlayTexture.DEFAULT_UV
+      );
     }
   }
 }

@@ -2,6 +2,7 @@ package com.vanillastar.vshorses.render
 
 import com.vanillastar.vshorses.entity.VSHorseEntity
 import com.vanillastar.vshorses.entity.isHorselike
+import com.vanillastar.vshorses.render.HorseshoeEntityModel.Companion.HORSESHOE_MODEL
 import com.vanillastar.vshorses.utils.getModIdentifier
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
@@ -25,7 +26,7 @@ class HorseshoeFeatureRenderer<TEntity: AbstractHorseEntity, TModel: HorseEntity
   }
 
   private val model =
-    HorseEntityModel<TEntity>(loader.getModelPart(HORSESHOE_MODEL_LAYER))
+    HorseEntityModel<TEntity>(loader.getModelPart(HORSESHOE_MODEL))
 
   override fun render(
     matrices: MatrixStack,
