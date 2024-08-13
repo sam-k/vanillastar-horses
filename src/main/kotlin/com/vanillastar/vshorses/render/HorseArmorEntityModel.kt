@@ -15,9 +15,10 @@ import net.minecraft.entity.passive.AbstractHorseEntity
  * Entity model for horse armor.
  *
  * Most of the [ModelData] is copied from that of [HorseEntityModel], with
- * omissions of parts not applicable to horse armor, and dilation applied to all
- * parts so that no horse armor part is flush with the horse itself. This fixes
- * horse armor glint from being applied to the entire horse.
+ * omissions of parts not applicable to horse armor (i.e., all saddle parts),
+ * and dilation applied to all parts so that no horse armor part is flush with
+ * the horse itself. This prevents horse armor glint from being applied to the
+ * entire horse.
  */
 @Environment(EnvType.CLIENT)
 // Workaround for https://youtrack.jetbrains.com/issue/KT-12993.
@@ -42,10 +43,17 @@ class HorseArmorEntityModel<TEntity: AbstractHorseEntity>(root: ModelPart):
         )
       )
       headParts.addChild(
-        EntityModelPartNames.HEAD,
+        EntityModelPartNames.MANE,
         ModelPartBuilder.create()
-          .uv(0, 13)
-          .cuboid(-3.0f, -11.0f, -2.0f, 6.0f, 5.0f, 7.0f, dilation),
+          .uv(56, 36)
+          .cuboid(-1.0f, -11.0f, 5.01f, 2.0f, 16.0f, 2.0f, dilation),
+        ModelTransform.NONE
+      )
+      headParts.addChild(
+        "upper_mouth",
+        ModelPartBuilder.create()
+          .uv(0, 25)
+          .cuboid(-2.0f, -11.0f, -7.0f, 4.0f, 5.0f, 5.0f, dilation),
         ModelTransform.NONE
       )
       addEmptyChildren(
@@ -59,13 +67,44 @@ class HorseArmorEntityModel<TEntity: AbstractHorseEntity>(root: ModelPart):
         )
       )
 
+      val head = headParts.addChild(
+        EntityModelPartNames.HEAD,
+        ModelPartBuilder.create()
+          .uv(0, 13)
+          .cuboid(-3.0f, -11.0f, -2.0f, 6.0f, 5.0f, 7.0f, dilation),
+        ModelTransform.NONE
+      )
+      head.addChild(
+        EntityModelPartNames.LEFT_EAR,
+        ModelPartBuilder.create()
+          .uv(19, 16)
+          .cuboid(0.55f, -13.0f, 4.0f, 2.0f, 3.0f, 1.0f, dilation.add(-0.001f)),
+        ModelTransform.NONE
+      )
+      head.addChild(
+        EntityModelPartNames.RIGHT_EAR,
+        ModelPartBuilder.create().uv(19, 16).cuboid(
+          -2.55f, -13.0f, 4.0f, 2.0f, 3.0f, 1.0f, dilation.add(-0.001f)
+        ),
+        ModelTransform.NONE
+      )
+
       // Horse's body. Dilation is added.
       val body = root.addChild(
         EntityModelPartNames.BODY, ModelPartBuilder.create().uv(0, 32).cuboid(
           -5.0f, -8.0f, -17.0f, 10.0f, 10.0f, 22.0f, dilation.add(0.05f)
         ), ModelTransform.pivot(0.0f, 11.0f, 5.0f)
       )
-      addEmptyChildren(body, listOf(EntityModelPartNames.TAIL, "saddle"))
+      body.addChild(
+        EntityModelPartNames.TAIL,
+        ModelPartBuilder.create()
+          .uv(42, 36)
+          .cuboid(-1.5f, 0.0f, 0.0f, 3.0f, 14.0f, 4.0f, dilation),
+        ModelTransform.of(
+          0.0f, -5.0f, 2.0f, (Math.PI / 6).toFloat(), 0.0f, 0.0f
+        )
+      )
+      addEmptyChild(body, "saddle")
 
       // Horse's legs. `sizeY` is decreased by 1 to allow room for horseshoes.
       root.addChild(

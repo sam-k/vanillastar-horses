@@ -17,7 +17,7 @@ import net.minecraft.entity.passive.AbstractHorseEntity
  * Entity model for horseshoes.
  *
  * Most of the [ModelData] is copied from that of [HorseEntityModel], with
- * omissions of parts not applicable to horseshoes.
+ * omissions of parts not applicable to horseshoes (i.e., all non-leg parts).
  */
 @Environment(EnvType.CLIENT)
 // Workaround for https://youtrack.jetbrains.com/issue/KT-12993.
@@ -36,9 +36,11 @@ class HorseshoeEntityModel<TEntity: AbstractHorseEntity>(root: ModelPart):
       val modelData = ModelData()
       val root = modelData.root
 
+      val headParts = addEmptyChild(root, "head_parts")
       addEmptyChildren(
-        addEmptyChild(root, "head_parts"), listOf(
-          EntityModelPartNames.HEAD,
+        headParts, listOf(
+          EntityModelPartNames.MANE,
+          "upper_mouth",
           "left_saddle_mouth",
           "right_saddle_mouth",
           "left_saddle_line",
@@ -46,6 +48,11 @@ class HorseshoeEntityModel<TEntity: AbstractHorseEntity>(root: ModelPart):
           "head_saddle",
           "mouth_saddle_wrap"
         )
+      )
+
+      addEmptyChildren(
+        addEmptyChild(headParts, EntityModelPartNames.HEAD),
+        listOf(EntityModelPartNames.LEFT_EAR, EntityModelPartNames.RIGHT_EAR)
       )
 
       addEmptyChildren(
