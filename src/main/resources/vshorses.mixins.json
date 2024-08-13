@@ -15,7 +15,8 @@
     "gui.SmithingScreenMixin",
     "render.AbstractHorseEntityRendererMixin",
     "render.EntityModelLayersMixin",
-    "render.EntityModelsMixin"
+    "render.EntityModelsMixin",
+    "render.HorseArmorFeatureRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
