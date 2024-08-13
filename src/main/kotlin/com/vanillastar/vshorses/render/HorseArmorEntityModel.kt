@@ -17,8 +17,7 @@ import net.minecraft.entity.passive.AbstractHorseEntity
  * Most of the [ModelData] is copied from that of [HorseEntityModel], with
  * omissions of parts not applicable to horse armor, and dilation applied to all
  * parts so that no horse armor part is flush with the horse itself. This fixes
- * horse armor glint from being applied to the entire horse, as well as related
- * bugs like [`MC-274828`](https://bugs.mojang.com/browse/MC-274828).
+ * horse armor glint from being applied to the entire horse.
  */
 @Environment(EnvType.CLIENT)
 // Workaround for https://youtrack.jetbrains.com/issue/KT-12993.

@@ -25,6 +25,7 @@ import net.minecraft.entity.passive.AbstractHorseEntity
 class HorseshoeEntityModel<TEntity: AbstractHorseEntity>(root: ModelPart):
   HorseEntityModel<TEntity>(root) {
   companion object {
+    /** [EntityModelLayer] identifier for the horseshoe entity model. */
     @JvmField
     val HORSESHOE_MODEL =
       EntityModelLayer(getModIdentifier("horseshoe"), "main")
