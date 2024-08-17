@@ -14,6 +14,7 @@
     "gui.HorseScreenMixin",
     "gui.SmithingScreenMixin",
     "render.AbstractHorseEntityRendererMixin",
+    "render.BakedModelManagerMixin",
     "render.EntityModelLayersMixin",
     "render.EntityModelsMixin",
     "render.HorseArmorFeatureRendererMixin"
