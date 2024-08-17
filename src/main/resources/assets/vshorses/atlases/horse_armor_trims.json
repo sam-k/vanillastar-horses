@@ -1,0 +1,44 @@
+{
+  "sources": [
+    {
+      "type": "paletted_permutations",
+      "textures": [
+        "vshorses:trims/models/horse_armor/coast",
+        "vshorses:trims/models/horse_armor/sentry",
+        "vshorses:trims/models/horse_armor/dune",
+        "vshorses:trims/models/horse_armor/wild",
+        "vshorses:trims/models/horse_armor/ward",
+        "vshorses:trims/models/horse_armor/eye",
+        "vshorses:trims/models/horse_armor/vex",
+        "vshorses:trims/models/horse_armor/tide",
+        "vshorses:trims/models/horse_armor/snout",
+        "vshorses:trims/models/horse_armor/rib",
+        "vshorses:trims/models/horse_armor/spire",
+        "vshorses:trims/models/horse_armor/wayfinder",
+        "vshorses:trims/models/horse_armor/shaper",
+        "vshorses:trims/models/horse_armor/silence",
+        "vshorses:trims/models/horse_armor/raiser",
+        "vshorses:trims/models/horse_armor/host",
+        "vshorses:trims/models/horse_armor/flow",
+        "vshorses:trims/models/horse_armor/bolt"
+      ],
+      "palette_key": "trims/color_palettes/trim_palette",
+      "permutations": {
+        "quartz": "trims/color_palettes/quartz",
+        "iron": "trims/color_palettes/iron",
+        "gold": "trims/color_palettes/gold",
+        "diamond": "trims/color_palettes/diamond",
+        "netherite": "trims/color_palettes/netherite",
+        "redstone": "trims/color_palettes/redstone",
+        "copper": "trims/color_palettes/copper",
+        "emerald": "trims/color_palettes/emerald",
+        "lapis": "trims/color_palettes/lapis",
+        "amethyst": "trims/color_palettes/amethyst",
+        "iron_darker": "trims/color_palettes/iron_darker",
+        "gold_darker": "trims/color_palettes/gold_darker",
+        "diamond_darker": "trims/color_palettes/diamond_darker",
+        "netherite_darker": "trims/color_palettes/netherite_darker"
+      }
+    }
+  ]
+}
