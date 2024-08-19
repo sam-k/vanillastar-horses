@@ -38,7 +38,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.function.Function;
 
-import static com.vanillastar.vshorses.render.HorseArmorTrimsRenderLayerKt.HORSE_ARMOR_TRIMS_ATLAS_TEXTURE;
+import static com.vanillastar.vshorses.render.HorseArmorTrimAtlasKt.HORSE_ARMOR_TRIM_ENTITY_ATLAS;
+import static com.vanillastar.vshorses.render.TextureAtlasHelperKt.getTextureAtlasId;
 import static com.vanillastar.vshorses.utils.IdentiferHelperKt.getModIdentifier;
 
 @Mixin(HorseArmorFeatureRenderer.class)
@@ -47,6 +48,10 @@ public abstract class HorseArmorFeatureRendererMixin extends FeatureRenderer<Hor
   @Unique
   private static final BakedModelManager MODEL_MANAGER =
     MinecraftClient.getInstance().getBakedModelManager();
+
+  @Unique
+  private static final Identifier HORSE_ARMOR_TRIM_ENTITY_ATLAS_TEXTURE =
+    getTextureAtlasId(HORSE_ARMOR_TRIM_ENTITY_ATLAS);
 
   @Unique
   private static final Function<ArmorTrim, Identifier> TRIM_MODEL_ID_GETTER =
@@ -78,7 +83,7 @@ public abstract class HorseArmorFeatureRendererMixin extends FeatureRenderer<Hor
     int light
   ) {
     @Nullable SpriteAtlasTexture horseArmorTrimsAtlas =
-      MODEL_MANAGER.getAtlas(HORSE_ARMOR_TRIMS_ATLAS_TEXTURE);
+      MODEL_MANAGER.getAtlas(HORSE_ARMOR_TRIM_ENTITY_ATLAS_TEXTURE);
     if (horseArmorTrimsAtlas == null) {
       return;
     }
@@ -87,7 +92,7 @@ public abstract class HorseArmorFeatureRendererMixin extends FeatureRenderer<Hor
       horseArmorTrimsAtlas.getSprite(TRIM_MODEL_ID_GETTER.apply(trim));
     VertexConsumer vertexConsumer =
       vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(
-        HORSE_ARMOR_TRIMS_ATLAS_TEXTURE));
+        HORSE_ARMOR_TRIM_ENTITY_ATLAS_TEXTURE));
     this.model.render(
       matrices,
       sprite.getTextureSpecificVertexConsumer(vertexConsumer),

@@ -1,5 +1,6 @@
 package com.vanillastar.vshorses.mixin.render;
 
+import com.vanillastar.vshorses.render.TextureAtlasHelperKt;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.model.BakedModelManager;
@@ -14,27 +15,30 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.AbstractMap;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.vanillastar.vshorses.render.HorseArmorTrimsRenderLayerKt.HORSE_ARMOR_TRIMS_ATLAS_TEXTURE;
-import static com.vanillastar.vshorses.utils.IdentiferHelperKt.getModIdentifier;
+import static com.vanillastar.vshorses.render.HorseArmorTrimAtlasKt.HORSE_ARMOR_TRIM_ENTITY_ATLAS;
+import static com.vanillastar.vshorses.render.HorseArmorTrimAtlasKt.HORSE_ARMOR_TRIM_ITEM_ATLAS;
 import static com.vanillastar.vshorses.utils.LoggerHelperKt.getMixinLogger;
 
 @Mixin(BakedModelManager.class)
 @Environment(EnvType.CLIENT)
 public abstract class BakedModelManagerMixin {
-  @Unique
-  private static final Logger LOGGER = getMixinLogger();
-
   /**
-   * Identifier for the atlas JSON file for horse armor trims.
+   * Map of all atlas texture IDs to corresponding atlas IDs.
    */
   @Unique
-  private static final Identifier HORSE_ARMOR_TRIMS_ATLAS =
-    getModIdentifier("horse_armor_trims");
+  private static final Map<Identifier, Identifier> TEXTURE_TO_ATLAS_MAP =
+    Stream.of(HORSE_ARMOR_TRIM_ENTITY_ATLAS, HORSE_ARMOR_TRIM_ITEM_ATLAS)
+      .collect(Collectors.toUnmodifiableMap(TextureAtlasHelperKt::getTextureAtlasId,
+        Function.identity()
+      ));
+
+  @Unique
+  private static final Logger LOGGER = getMixinLogger();
 
   @Shadow
   @Final
@@ -44,18 +48,15 @@ public abstract class BakedModelManagerMixin {
   @Inject(method = "<clinit>", at = @At("TAIL"))
   private static void addHorseArmorAtlas(CallbackInfo ci) {
     LAYERS_TO_LOADERS = Stream.concat(LAYERS_TO_LOADERS.entrySet().stream(),
-        Stream.of(new AbstractMap.SimpleImmutableEntry<>(
-          HORSE_ARMOR_TRIMS_ATLAS_TEXTURE,
-          HORSE_ARMOR_TRIMS_ATLAS
-        ))
+        TEXTURE_TO_ATLAS_MAP.entrySet().stream()
       )
       .collect(Collectors.toUnmodifiableMap(Map.Entry::getKey,
         Map.Entry::getValue
       ));
 
-    LOGGER.info("Registered sprite atlas {} with {}",
-      HORSE_ARMOR_TRIMS_ATLAS_TEXTURE,
-      HORSE_ARMOR_TRIMS_ATLAS
-    );
+    TEXTURE_TO_ATLAS_MAP.forEach((textureId, atlasId) -> LOGGER.info("Registered sprite atlas {} with {}",
+      atlasId,
+      textureId
+    ));
   }
 }

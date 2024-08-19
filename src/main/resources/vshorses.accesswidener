@@ -1,3 +1,5 @@
 accessWidener v2 named
 
+accessible class net/minecraft/data/client/ItemModelGenerator$TrimMaterial
+accessible field net/minecraft/data/client/ItemModelGenerator TRIM_MATERIALS Ljava/util/List;
 accessible class net/minecraft/screen/slot/ArmorSlot
