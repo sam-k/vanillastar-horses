@@ -26,7 +26,7 @@
   "accessWidener": "vshorses.accesswidener",
   "depends": {
     "fabricloader": ">=${fabric_loader_version}",
-    "minecraft": "~${}",
+    "minecraft": "~${minecraft_target_version}",
     "java": ">=21",
     "fabric-api": ">=${fabric_api_version}",
     "fabric-language-kotlin": ">=${fabric_kotlin_version}"
