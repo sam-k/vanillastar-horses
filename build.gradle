@@ -4,6 +4,7 @@ plugins {
   id 'fabric-loom' version '1.7-SNAPSHOT'
   id 'maven-publish'
   id "org.jetbrains.kotlin.jvm" version "2.0.0"
+  id "com.diffplug.spotless" version "7.0.0.BETA1"
 }
 
 version = project.mod_version
@@ -91,5 +92,29 @@ publishing {
     // Notice: This block does NOT have the same function as the block in the
     // top level. The repositories here will be used for publishing your
     // artifact, not for retrieving dependencies.
+  }
+}
+
+spotless {
+  ratchetFrom 'origin/main'
+
+  format 'misc', {
+    target '*.gradle', '.gitattributes', '.gitignore'
+
+    trimTrailingWhitespace()
+    indentWithSpaces(2)
+    endWithNewline()
+  }
+
+  java {
+    palantirJavaFormat(palantir_java_format_version).style("GOOGLE").formatJavadoc(true)
+  }
+
+  kotlin {
+    // version, style and all configurations here are optional
+    ktfmt(ktfmt_version).googleStyle().configure {
+      it.setBlockIndent(2)
+      it.setContinuationIndent(4)
+    }
   }
 }
