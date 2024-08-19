@@ -22,5 +22,8 @@ jobs:
           build-scan-terms-of-use-url: https://gradle.com/terms-of-service
           build-scan-terms-of-use-agree: yes
 
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
       - name: Run build
         run: ./gradlew build
