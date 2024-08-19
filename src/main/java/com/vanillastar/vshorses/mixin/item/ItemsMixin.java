@@ -15,11 +15,12 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 @Mixin(Items.class)
 public abstract class ItemsMixin {
   @ModifyArgs(
-    method = "<clinit>", at = @At(
-    value = "INVOKE",
-    target = "Lnet/minecraft/item/AnimalArmorItem;<init>(Lnet/minecraft/registry/entry/RegistryEntry;Lnet/minecraft/item/AnimalArmorItem$Type;ZLnet/minecraft/item/Item$Settings;)V"
-  )
-  )
+      method = "<clinit>",
+      at =
+          @At(
+              value = "INVOKE",
+              target =
+                  "Lnet/minecraft/item/AnimalArmorItem;<init>(Lnet/minecraft/registry/entry/RegistryEntry;Lnet/minecraft/item/AnimalArmorItem$Type;ZLnet/minecraft/item/Item$Settings;)V"))
   private static void interceptRegisterHorseArmorItem(@NotNull Args args) {
     RegistryEntry<ArmorMaterial> material = args.get(0);
     AnimalArmorItem.Type type = args.get(1);
@@ -28,15 +29,14 @@ public abstract class ItemsMixin {
     if (type != AnimalArmorItem.Type.EQUESTRIAN) {
       return;
     }
-    int maxDamageMultiplier = (
-      switch (material.getIdAsString()) {
-        case "minecraft:leather" -> 5;  // Same as leather armor
-        case "minecraft:iron" -> 7;  // Same as golden armor
-        case "minecraft:gold" -> 15;  // Same as iron armor
-        case "minecraft:diamond" -> 33;  // Same as diamond armor
-        default -> 0;  // Ignore
-      }
-    );
+    int maxDamageMultiplier =
+        switch (material.getIdAsString()) {
+          case "minecraft:leather" -> 5; // Same as leather armor
+          case "minecraft:iron" -> 7; // Same as golden armor
+          case "minecraft:gold" -> 15; // Same as iron armor
+          case "minecraft:diamond" -> 33; // Same as diamond armor
+          default -> 0; // Ignore
+        };
     if (maxDamageMultiplier > 0) {
       settings.maxDamage(ArmorItem.Type.BODY.getMaxDamage(maxDamageMultiplier));
     }

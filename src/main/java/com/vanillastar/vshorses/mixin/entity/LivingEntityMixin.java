@@ -23,16 +23,14 @@ public abstract class LivingEntityMixin extends Entity {
   }
 
   @Inject(method = "onDismounted", at = @At("TAIL"))
-  private void leashUponUnderwaterDismount(
-    @NotNull Entity vehicle, CallbackInfo ci
-  ) {
-    if (!((LivingEntity) (Object) this instanceof PlayerEntity player) ||
-      !player.isSubmergedIn(FluidTags.WATER)) {
+  private void leashUponUnderwaterDismount(@NotNull Entity vehicle, CallbackInfo ci) {
+    if (!((LivingEntity) (Object) this instanceof PlayerEntity player)
+        || !player.isSubmergedIn(FluidTags.WATER)) {
       return;
     }
-    if (!vehicle.shouldDismountUnderwater() ||
-      !(vehicle instanceof Leashable leashable) ||
-      !leashable.canLeashAttachTo()) {
+    if (!vehicle.shouldDismountUnderwater()
+        || !(vehicle instanceof Leashable leashable)
+        || !leashable.canLeashAttachTo()) {
       return;
     }
 

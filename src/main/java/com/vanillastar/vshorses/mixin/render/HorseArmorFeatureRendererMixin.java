@@ -1,6 +1,11 @@
 package com.vanillastar.vshorses.mixin.render;
 
+import static com.vanillastar.vshorses.render.HorseArmorTrimAtlasKt.HORSE_ARMOR_TRIM_ENTITY_ATLAS;
+import static com.vanillastar.vshorses.render.TextureAtlasHelperKt.getTextureAtlasId;
+import static com.vanillastar.vshorses.utils.IdentiferHelperKt.getModIdentifier;
+
 import com.vanillastar.vshorses.render.HorseArmorEntityModel;
+import java.util.function.Function;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -36,30 +41,24 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.function.Function;
-
-import static com.vanillastar.vshorses.render.HorseArmorTrimAtlasKt.HORSE_ARMOR_TRIM_ENTITY_ATLAS;
-import static com.vanillastar.vshorses.render.TextureAtlasHelperKt.getTextureAtlasId;
-import static com.vanillastar.vshorses.utils.IdentiferHelperKt.getModIdentifier;
-
 @Mixin(HorseArmorFeatureRenderer.class)
 @Environment(EnvType.CLIENT)
-public abstract class HorseArmorFeatureRendererMixin extends FeatureRenderer<HorseEntity, HorseEntityModel<HorseEntity>> {
+public abstract class HorseArmorFeatureRendererMixin
+    extends FeatureRenderer<HorseEntity, HorseEntityModel<HorseEntity>> {
   @Unique
   private static final BakedModelManager MODEL_MANAGER =
-    MinecraftClient.getInstance().getBakedModelManager();
+      MinecraftClient.getInstance().getBakedModelManager();
 
   @Unique
   private static final Identifier HORSE_ARMOR_TRIM_ENTITY_ATLAS_TEXTURE =
-    getTextureAtlasId(HORSE_ARMOR_TRIM_ENTITY_ATLAS);
+      getTextureAtlasId(HORSE_ARMOR_TRIM_ENTITY_ATLAS);
 
   @Unique
   private static final Function<ArmorTrim, Identifier> TRIM_MODEL_ID_GETTER =
-    Util.memoize(trim -> getModIdentifier(String.format(
-      "trims/models/horse_armor/%s_%s",
-      trim.getPattern().value().assetId().getPath(),
-      trim.getMaterial().value().assetName()
-    )));
+      Util.memoize(trim -> getModIdentifier(String.format(
+          "trims/models/horse_armor/%s_%s",
+          trim.getPattern().value().assetId().getPath(),
+          trim.getMaterial().value().assetName())));
 
   @Shadow
   @Final
@@ -67,78 +66,69 @@ public abstract class HorseArmorFeatureRendererMixin extends FeatureRenderer<Hor
   private HorseEntityModel<HorseEntity> model;
 
   private HorseArmorFeatureRendererMixin(
-    FeatureRendererContext<HorseEntity, HorseEntityModel<HorseEntity>> context,
-    @NotNull EntityModelLoader loader
-  ) {
+      FeatureRendererContext<HorseEntity, HorseEntityModel<HorseEntity>> context,
+      @NotNull EntityModelLoader loader) {
     super(context);
-    this.model =
-      new HorseArmorEntityModel<>(loader.getModelPart(EntityModelLayers.HORSE_ARMOR));
+    this.model = new HorseArmorEntityModel<>(loader.getModelPart(EntityModelLayers.HORSE_ARMOR));
   }
 
   @Unique
   private void renderTrim(
-    @NotNull ArmorTrim trim,
-    MatrixStack matrices,
-    @NotNull VertexConsumerProvider vertexConsumers,
-    int light
-  ) {
-    @Nullable SpriteAtlasTexture horseArmorTrimsAtlas =
-      MODEL_MANAGER.getAtlas(HORSE_ARMOR_TRIM_ENTITY_ATLAS_TEXTURE);
+      @NotNull ArmorTrim trim,
+      MatrixStack matrices,
+      @NotNull VertexConsumerProvider vertexConsumers,
+      int light) {
+    @Nullable
+    SpriteAtlasTexture horseArmorTrimsAtlas =
+        MODEL_MANAGER.getAtlas(HORSE_ARMOR_TRIM_ENTITY_ATLAS_TEXTURE);
     if (horseArmorTrimsAtlas == null) {
       return;
     }
 
-    Sprite sprite =
-      horseArmorTrimsAtlas.getSprite(TRIM_MODEL_ID_GETTER.apply(trim));
-    VertexConsumer vertexConsumer =
-      vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(
-        HORSE_ARMOR_TRIM_ENTITY_ATLAS_TEXTURE));
+    Sprite sprite = horseArmorTrimsAtlas.getSprite(TRIM_MODEL_ID_GETTER.apply(trim));
+    VertexConsumer vertexConsumer = vertexConsumers.getBuffer(
+        RenderLayer.getEntityCutoutNoCull(HORSE_ARMOR_TRIM_ENTITY_ATLAS_TEXTURE));
     this.model.render(
-      matrices,
-      sprite.getTextureSpecificVertexConsumer(vertexConsumer),
-      light,
-      OverlayTexture.DEFAULT_UV
-    );
+        matrices,
+        sprite.getTextureSpecificVertexConsumer(vertexConsumer),
+        light,
+        OverlayTexture.DEFAULT_UV);
   }
 
   @Unique
   private void renderGlint(
-    MatrixStack matrices,
-    @NotNull VertexConsumerProvider vertexConsumers,
-    int light
-  ) {
+      MatrixStack matrices, @NotNull VertexConsumerProvider vertexConsumers, int light) {
     this.model.render(
-      matrices,
-      vertexConsumers.getBuffer(RenderLayer.getEntityGlint()),
-      light,
-      OverlayTexture.DEFAULT_UV
-    );
+        matrices,
+        vertexConsumers.getBuffer(RenderLayer.getEntityGlint()),
+        light,
+        OverlayTexture.DEFAULT_UV);
   }
 
   @Inject(
-    method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/entity/passive/HorseEntity;FFFFFF)V",
-    at = @At(
-      value = "INVOKE",
-      target = "Lnet/minecraft/client/render/entity/model/HorseEntityModel;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;III)V",
-      shift = At.Shift.AFTER
-    )
-  )
+      method =
+          "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/entity/passive/HorseEntity;FFFFFF)V",
+      at =
+          @At(
+              value = "INVOKE",
+              target =
+                  "Lnet/minecraft/client/render/entity/model/HorseEntityModel;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;III)V",
+              shift = At.Shift.AFTER))
   private void renderGlint(
-    MatrixStack matrices,
-    VertexConsumerProvider vertexConsumers,
-    int light,
-    @NotNull HorseEntity horseEntity,
-    float limbAngle,
-    float limbDistance,
-    float tickDelta,
-    float animationProgress,
-    float headYaw,
-    float headPitch,
-    CallbackInfo ci
-  ) {
+      MatrixStack matrices,
+      VertexConsumerProvider vertexConsumers,
+      int light,
+      @NotNull HorseEntity horseEntity,
+      float limbAngle,
+      float limbDistance,
+      float tickDelta,
+      float animationProgress,
+      float headYaw,
+      float headPitch,
+      CallbackInfo ci) {
     ItemStack itemStack = horseEntity.getBodyArmor();
-    if (!(itemStack.getItem() instanceof AnimalArmorItem animalArmorItem) ||
-      animalArmorItem.getType() != AnimalArmorItem.Type.EQUESTRIAN) {
+    if (!(itemStack.getItem() instanceof AnimalArmorItem animalArmorItem)
+        || animalArmorItem.getType() != AnimalArmorItem.Type.EQUESTRIAN) {
       return;
     }
 

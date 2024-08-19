@@ -7,5 +7,4 @@ import net.minecraft.registry.tag.TagKey
 
 /** Tag containing all horse armor items. */
 @JvmField
-val HORSE_ARMOR: TagKey<Item> =
-  TagKey.of(RegistryKeys.ITEM, getModIdentifier("horse_armor"))
+val HORSE_ARMOR: TagKey<Item> = TagKey.of(RegistryKeys.ITEM, getModIdentifier("horse_armor"))

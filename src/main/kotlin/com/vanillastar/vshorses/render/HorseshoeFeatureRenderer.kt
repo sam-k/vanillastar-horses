@@ -17,28 +17,27 @@ import net.minecraft.client.util.math.MatrixStack
 import net.minecraft.entity.passive.AbstractHorseEntity
 
 @Environment(EnvType.CLIENT)
-class HorseshoeFeatureRenderer<TEntity: AbstractHorseEntity, TModel: HorseEntityModel<TEntity>>(
-  context: FeatureRendererContext<TEntity, TModel>, loader: EntityModelLoader
-): FeatureRenderer<TEntity, TModel>(context) {
+class HorseshoeFeatureRenderer<TEntity : AbstractHorseEntity, TModel : HorseEntityModel<TEntity>>(
+    context: FeatureRendererContext<TEntity, TModel>,
+    loader: EntityModelLoader,
+) : FeatureRenderer<TEntity, TModel>(context) {
   companion object {
-    private val HORSESHOE_SKIN_ID =
-      getModIdentifier("textures/entity/horse/horseshoe.png")
+    private val HORSESHOE_SKIN_ID = getModIdentifier("textures/entity/horse/horseshoe.png")
   }
 
-  private val model =
-    HorseEntityModel<TEntity>(loader.getModelPart(HORSESHOE_MODEL))
+  private val model = HorseEntityModel<TEntity>(loader.getModelPart(HORSESHOE_MODEL))
 
   override fun render(
-    matrices: MatrixStack,
-    vertexConsumers: VertexConsumerProvider,
-    light: Int,
-    entity: TEntity,
-    limbAngle: Float,
-    limbDistance: Float,
-    tickDelta: Float,
-    animationProgress: Float,
-    headYaw: Float,
-    headPitch: Float
+      matrices: MatrixStack,
+      vertexConsumers: VertexConsumerProvider,
+      light: Int,
+      entity: TEntity,
+      limbAngle: Float,
+      limbDistance: Float,
+      tickDelta: Float,
+      animationProgress: Float,
+      headYaw: Float,
+      headPitch: Float,
   ) {
     if (!isHorselike(entity) || entity !is VSHorseEntity || !entity.`vshorses$isShoed`()) {
       return
@@ -46,22 +45,20 @@ class HorseshoeFeatureRenderer<TEntity: AbstractHorseEntity, TModel: HorseEntity
 
     this.contextModel.copyStateTo(this.model)
     this.model.animateModel(entity, limbAngle, limbDistance, tickDelta)
-    this.model.setAngles(
-      entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch
-    )
+    this.model.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch)
     this.model.render(
-      matrices, vertexConsumers.getBuffer(
-        RenderLayer.getEntityCutoutNoCull(HORSESHOE_SKIN_ID)
-      ), light, OverlayTexture.DEFAULT_UV
+        matrices,
+        vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(HORSESHOE_SKIN_ID)),
+        light,
+        OverlayTexture.DEFAULT_UV,
     )
     if (entity.`vshorses$getHorseshoeInventory`().stack.hasGlint()) {
       this.model.render(
-        matrices,
-        vertexConsumers.getBuffer(RenderLayer.getEntityGlint()),
-        light,
-        OverlayTexture.DEFAULT_UV
+          matrices,
+          vertexConsumers.getBuffer(RenderLayer.getEntityGlint()),
+          light,
+          OverlayTexture.DEFAULT_UV,
       )
     }
   }
 }
-
