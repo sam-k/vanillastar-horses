@@ -97,7 +97,7 @@ spotless {
   ratchetFrom("origin/main")
 
   format("misc") {
-    target("*.gradle", ".gitattributes", ".gitignore")
+    target("*.gradle", ".git-blame-ignore-revs", ".gitignore")
 
     trimTrailingWhitespace()
     indentWithSpaces(2)
