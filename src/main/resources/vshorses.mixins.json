@@ -5,6 +5,7 @@
   "mixins": [
     "block.DispenserBehaviorMixin",
     "entity.AbstractHorseEntityMixin",
+    "entity.LivingEntityMixin",
     "item.AnimalArmorItemMixin",
     "item.ItemsMixin",
     "item.SmithingTemplateItemMixin",
