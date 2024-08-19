@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "vshorses:item/netherite_horse_armor",
+    "layer1": "vshorses:trims/items/horse_armor_trim_quartz"
+  }
+}
