@@ -12,20 +12,19 @@ import net.minecraft.registry.Registry
 
 const val MOD_ID = "vshorses"
 
-object VSHorses: ModInitializer {
+object VSHorses : ModInitializer {
   private val LOGGER = getLogger()
 
   private fun registerItems() {
     val items = ImmutableList.of(HORSESHOE_ITEM, NETHERITE_HORSE_ARMOR_ITEM)
     for (item in items) {
       Registry.register(Registries.ITEM, item.id, item)
-      ItemGroupEvents.modifyEntriesEvent(item.itemGroup)
-        .register { entries -> entries.add(item) }
+      ItemGroupEvents.modifyEntriesEvent(item.itemGroup).register { entries -> entries.add(item) }
       LOGGER.info(
-        "Registered item {} in group {}|{}",
-        item.id,
-        item.itemGroup.registry,
-        item.itemGroup.value
+          "Registered item {} in group {}|{}",
+          item.id,
+          item.itemGroup.registry,
+          item.itemGroup.value,
       )
     }
   }

@@ -1,5 +1,10 @@
 package com.vanillastar.vshorses.mixin.render;
 
+import static com.vanillastar.vshorses.render.HorseshoeEntityModel.HORSESHOE_MODEL;
+import static com.vanillastar.vshorses.utils.LoggerHelperKt.getMixinLogger;
+
+import java.util.Set;
+import java.util.stream.Stream;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
@@ -13,12 +18,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.Set;
-import java.util.stream.Stream;
-
-import static com.vanillastar.vshorses.render.HorseshoeEntityModel.HORSESHOE_MODEL;
-import static com.vanillastar.vshorses.utils.LoggerHelperKt.getMixinLogger;
-
 @Mixin(EntityModelLayers.class)
 @Environment(EnvType.CLIENT)
 public abstract class EntityModelLayersMixin {
@@ -31,8 +30,7 @@ public abstract class EntityModelLayersMixin {
 
   @Inject(method = "getLayers", at = @At("HEAD"))
   private static void addHorseshoeModelLayer(CallbackInfoReturnable<Stream<EntityModelLayer>> cir) {
-    // Add `HORSESHOE_MODEL` to private field `LAYERS` the first time it is
-    // accessed.
+    // Add `HORSESHOE_MODEL` to private field `LAYERS` the first time it is accessed.
     if (LAYERS.contains(HORSESHOE_MODEL)) {
       return;
     }
@@ -40,8 +38,7 @@ public abstract class EntityModelLayersMixin {
     if (LAYERS.add(HORSESHOE_MODEL)) {
       LOGGER.info("Registered entity model layer {}", HORSESHOE_MODEL);
     } else {
-      throw new IllegalStateException("Duplicate registration for " +
-        HORSESHOE_MODEL);
+      throw new IllegalStateException("Duplicate registration for " + HORSESHOE_MODEL);
     }
   }
 }

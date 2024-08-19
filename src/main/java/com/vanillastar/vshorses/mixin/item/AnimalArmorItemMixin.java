@@ -20,8 +20,7 @@ public abstract class AnimalArmorItemMixin extends ArmorItem {
   private AnimalArmorItem.Type type;
 
   private AnimalArmorItemMixin(
-    RegistryEntry<ArmorMaterial> material, Type type, Settings settings
-  ) {
+      RegistryEntry<ArmorMaterial> material, Type type, Settings settings) {
     super(material, type, settings);
   }
 
@@ -32,17 +31,14 @@ public abstract class AnimalArmorItemMixin extends ArmorItem {
 
   @Override
   public boolean canBeEnchantedWith(
-    ItemStack stack,
-    @NotNull RegistryEntry<Enchantment> enchantment,
-    @NotNull EnchantingContext context
-  ) {
+      ItemStack stack,
+      @NotNull RegistryEntry<Enchantment> enchantment,
+      @NotNull EnchantingContext context) {
     Enchantment.Definition definition = enchantment.value().definition();
-    return (
-      switch (context) {
-        case PRIMARY ->
-          definition.primaryItems().orElse(definition.supportedItems());
-        case ACCEPTABLE -> definition.supportedItems();
-      }
-    ).stream().anyMatch(entry -> entry.isIn(ItemTags.CHEST_ARMOR_ENCHANTABLE));
+    return (switch (context) {
+          case PRIMARY -> definition.primaryItems().orElse(definition.supportedItems());
+          case ACCEPTABLE -> definition.supportedItems();
+        })
+        .stream().anyMatch(entry -> entry.isIn(ItemTags.CHEST_ARMOR_ENCHANTABLE));
   }
 }

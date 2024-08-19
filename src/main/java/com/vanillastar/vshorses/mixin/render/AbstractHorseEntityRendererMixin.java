@@ -16,20 +16,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractHorseEntityRenderer.class)
 @Environment(EnvType.CLIENT)
-public abstract class AbstractHorseEntityRendererMixin<TEntity extends AbstractHorseEntity, TModel extends HorseEntityModel<TEntity>> extends MobEntityRenderer<TEntity, TModel> {
+public abstract class AbstractHorseEntityRendererMixin<
+        TEntity extends AbstractHorseEntity, TModel extends HorseEntityModel<TEntity>>
+    extends MobEntityRenderer<TEntity, TModel> {
   private AbstractHorseEntityRendererMixin(
-    EntityRendererFactory.Context ctx, TModel model, float scale
-  ) {
+      EntityRendererFactory.Context ctx, TModel model, float scale) {
     super(ctx, model, scale);
   }
 
   @Inject(method = "<init>", at = @At("TAIL"))
   private void addHorseshoeFeatureRenderer(
-    EntityRendererFactory.@NotNull Context ctx,
-    TModel model,
-    float scale,
-    CallbackInfo ci
-  ) {
+      EntityRendererFactory.@NotNull Context ctx, TModel model, float scale, CallbackInfo ci) {
     this.addFeature(new HorseshoeFeatureRenderer<>(this, ctx.getModelLoader()));
   }
 }
