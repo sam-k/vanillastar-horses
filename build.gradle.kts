@@ -1,6 +1,8 @@
 @file:Suppress("PropertyName")
 
+import com.diffplug.gradle.spotless.SpotlessExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
   id("fabric-loom") version "1.7-SNAPSHOT"
@@ -8,6 +10,8 @@ plugins {
   id("org.jetbrains.kotlin.jvm") version "2.0.0"
   id("com.diffplug.spotless") version "7.0.0.BETA1"
 }
+
+val gradle_version: String by project
 
 val mod_version: String by project
 val maven_group: String by project
@@ -47,53 +51,57 @@ loom {
   accessWidenerPath = file(access_widener_path)
 }
 
-tasks {
-  processResources {
-    inputs.property("version", version)
+tasks.withType<ValidatePlugins>().configureEach {
+  failOnWarning.set(true)
+  enableStricterValidation.set(true)
+}
 
-    filesMatching("fabric.mod.json") {
-      expand(
+tasks.named<Wrapper>("wrapper") {
+  gradleVersion = gradle_version
+}
+
+tasks.named<ProcessResources>("processResources") {
+  inputs.property("version", version)
+
+  filesMatching("fabric.mod.json") {
+    expand(
         mapOf(
-          "version" to version,
-          "minecraft_target_version" to minecraft_target_version,
-          "fabric_loader_version" to fabric_loader_version,
-          "fabric_api_version" to fabric_api_version,
-          "fabric_kotlin_version" to fabric_kotlin_version,
+            "version" to version,
+            "minecraft_target_version" to minecraft_target_version,
+            "fabric_loader_version" to fabric_loader_version,
+            "fabric_api_version" to fabric_api_version,
+            "fabric_kotlin_version" to fabric_kotlin_version,
         )
-      )
-    }
+    )
   }
+}
 
-  compileJava {
-    options.release = 21
+tasks.named<JavaCompile>("compileJava") {
+  options.release = 21
+}
+
+tasks.named<KotlinCompile>("compileKotlin") {
+  compilerOptions {
+    jvmTarget.set(JvmTarget.JVM_21)
   }
+}
 
-  compileKotlin {
-    compilerOptions {
-      jvmTarget.set(JvmTarget.JVM_21)
-    }
-  }
+java {
+  withSourcesJar()
 
-  java {
-    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to
-    // the `build` task if it is present.
-    // If you remove this line, sources will not be generated.
-    withSourcesJar()
+  sourceCompatibility = JavaVersion.VERSION_21
+  targetCompatibility = JavaVersion.VERSION_21
+}
 
-    sourceCompatibility = JavaVersion.VERSION_21
-    targetCompatibility = JavaVersion.VERSION_21
-  }
-
-  jar {
-    from("LICENSE") {
-      rename {
-        "${it}_${archives_base_name}"
-      }
+tasks.named<Jar>("jar") {
+  from("LICENSE") {
+    rename {
+      "${it}_${archives_base_name}"
     }
   }
 }
 
-spotless {
+extensions.configure<SpotlessExtension>("spotless") {
   ratchetFrom("origin/main")
 
   format("misc") {
