@@ -63,7 +63,6 @@
     }
   ],
   "textures": {
-    "layer0": "minecraft:item/leather_horse_armor",
-    "layer1": "minecraft:item/leather_horse_armor_overlay"
+    "layer0": "minecraft:item/leather_horse_armor"
   }
 }
