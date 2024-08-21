@@ -69,8 +69,6 @@ tasks.named<ProcessResources>("processResources") {
             "version" to version,
             "minecraft_target_version" to minecraft_target_version,
             "fabric_loader_version" to fabric_loader_version,
-            "fabric_api_version" to fabric_api_version,
-            "fabric_kotlin_version" to fabric_kotlin_version,
         )
     )
   }
