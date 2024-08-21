@@ -3,7 +3,9 @@
   "package": "com.vanillastar.vshorses.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "block.AbstractBlockAccessor",
     "block.DispenserBehaviorMixin",
+    "block.LeavesBlockMixin",
     "entity.AbstractHorseEntityMixin",
     "entity.LivingEntityMixin",
     "item.AnimalArmorItemMixin",
