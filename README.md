@@ -12,8 +12,8 @@ Minecraft Fabric mod for horses as viable mode of transportation.
 
 Horses are slow compared to endgame modes of transportation like elytras, and they are impractical
 early- and midgame in face of common terrain features like forests and rivers. They are also very
-outdated—except for breeding tweaks in 2023,
-they’ve seen no meaningful improvements in their mechanics since their introduction in 2013.
+outdated—except for breeding tweaks in 2023 (JE 1.19.4/BE 1.19.70), they’ve seen no meaningful
+improvements in their mechanics since their first introduction in 2013 (JE 1.6.1).
 
 This mod catches up horses to modern Minecraft and makes them a viable, competitive and pleasant
 mode of transportation.
@@ -27,8 +27,8 @@ mode of transportation.
 ### Horse Movement
 
 - **Remove leaves collision** in certain cases for ridden horses (and other rideable animals)
-- **Automatically leash horses** (and other rideable animals) when automatically dismounting underwater, if leads are in the
-  player’s inventory
+- **Automatically leash horses** (and other rideable animals) when automatically dismounting
+  underwater, if leads are in the player’s inventory
 - Horses (and donkeys and mules) **swim faster** in water
 
 ### Horse Armor
@@ -64,11 +64,5 @@ mode of transportation.
 As a Fabric mod, this mod requires the [Fabric Loader](https://fabricmc.net/). It also needs the
 following dependencies:
 
-<ul>
-  <li>
-    <img src="https://cdn.modrinth.com/data/P7dR8mSH/icon.png" alt="Fabric API" style="height: 1em"> <a href="https://modrinth.com/mod/fabric-api">Fabric API</a>
-  </li>
-  <li>
-    <img src="https://cdn.modrinth.com/data/Ha28R6CL/icon.png" alt="Fabric API" style="height: 1em"> <a href="https://modrinth.com/mod/fabric-language-kotlin">Fabric Language Kotlin</a>
-  </li>
-</ul>
+- <img src="https://cdn.modrinth.com/data/P7dR8mSH/icon.png" alt="Fabric API" style="height: 1em"> <a href="https://modrinth.com/mod/fabric-api">Fabric API</a>
+- <img src="https://cdn.modrinth.com/data/Ha28R6CL/icon.png" alt="Fabric Language Kotlin" style="height: 1em"> <a href="https://modrinth.com/mod/fabric-language-kotlin">Fabric Language Kotlin</a>
