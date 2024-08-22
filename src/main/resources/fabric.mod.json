@@ -3,11 +3,17 @@
   "id": "vshorses",
   "version": "${version}",
   "name": "Vanilla* Horses",
-  "description": "",
+  "description": "Makes horses a viable mode of transportation.",
   "authors": [
     "Sam Kim"
   ],
-  "license": "CC0-1.0",
+  "contact": {
+    "homepage": "https://github.com/sam-k/vanillastar-horses",
+    "sources": "https://github.com/sam-k/vanillastar-horses",
+    "issues": "https://github.com/sam-k/vanillastar-horses/issues"
+  },
+  "license": "MIT",
+  "icon" : "vshorses-icon.png",
   "environment": "*",
   "entrypoints": {
     "fabric-datagen": [
