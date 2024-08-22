@@ -49,11 +49,15 @@ public abstract class SmithingScreenMixin extends ForgingScreen<SmithingScreenHa
 
   @Inject(method = "equipArmorStand", at = @At("HEAD"), cancellable = true)
   private void equipHorse(ItemStack stack, CallbackInfo ci) {
-    if (this.horse == null || !this.isSmithingHorseArmor()) {
+    if (this.horse == null) {
       return;
     }
 
     this.horse.equipStack(EquipmentSlot.BODY, ItemStack.EMPTY);
+    if (!this.isSmithingHorseArmor()) {
+      return;
+    }
+
     if (stack.isIn(HORSE_ARMOR)) {
       this.horse.equipStack(EquipmentSlot.BODY, stack.copy());
     }
