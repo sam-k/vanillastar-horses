@@ -10,14 +10,14 @@ Minecraft Fabric mod for horses as viable mode of transportation.
 
 ---
 
-<h2 style="display: flex; align-items: center">
+<h2 style="display: flex; column-gap: 0.25em; align-items: center">
   <img src=".github/assets/spyglass.png" alt="Spyglass" style="height: 1em">
-  <span>&nbsp;Overview</span>
+  <span>Overview</span>
 </h2>
 
 Horses are slow compared to endgame modes of transportation like elytras, and they are impractical
 early- and midgame in face of common terrain features like forests and rivers. They are also very
-outdated—except for breeding tweaks in <span title="Java 1.19.4, Bedrock 1.19.70" style="text-decoration: underline dotted; cursor: help">2023</span>,
+outdated—except for breeding tweaks in <span title="Java 1.19.4; Bedrock 1.19.70" style="text-decoration: underline dotted; cursor: help">2023</span>,
 they’ve seen no meaningful improvements in their mechanics since their introduction in <span title="Java 1.6.1, the “Horse Update”" style="text-decoration: underline dotted; cursor: help">2013</span>.
 
 This mod catches up horses to modern Minecraft and makes them a viable, competitive and pleasant
@@ -29,15 +29,15 @@ mode of transportation.
 
 ---
 
-<h2 style="display: flex; align-items: center">
+<h2 style="display: flex; column-gap: 0.25em; align-items: center">
   <img src=".github/assets/writable_book.png" alt="Book and Quill" style="height: 1em">
-  <span>&nbsp;All Changes</span>
+  <span>All Changes</span>
 </h2>
 
 ### Horse Movement
 
 - **Remove leaves collision** in certain cases for ridden horses[^1]
-- **Automatically leash** horses[^1] when automatically dismounting underwater, if leads are in the
+- **Automatically leash horses**[^1] when automatically dismounting underwater, if leads are in the
   player’s inventory
 - Horses[^2] **swim faster** in water
 
@@ -58,7 +58,7 @@ asymmetric
 ### Horseshoe
 
 - Add **horseshoes**, crafted with copper ingots
-- **Speeds up** horses[^2] when equipped in the new horseshoe slot
+- **Speeds up horses**[^2] when equipped in the new horseshoe slot
 - Support **enchanting** with all generic and boots-specific enchantments (Depth Strider, Feather
 Falling, Frost Walker, Soul Speed)
 - De-facto fixes for existing bugs:
