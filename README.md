@@ -69,3 +69,30 @@ function on horse armor
 
 [^1]: Also all other rideable animals (donkeys, mules, camels, llamas, pigs, striders)
 [^2]: Also donkeys and mules
+
+---
+
+<h2 style="display: flex; column-gap: 0.25em; align-items: center">
+  <img src=".github/assets/filled_map.png" alt="Filled Map" style="height: 1em">
+  <span>Installation</span>
+</h2>
+
+### Requirements
+
+As a Fabric mod, this mod requires the [Fabric Loader](https://fabricmc.net/). It also needs the
+following dependencies:
+
+<ul>
+  <li>
+    <a href="https://modrinth.com/mod/fabric-api" style="display: flex; column-gap: 0.25em; align-items: center">
+      <img src="https://cdn.modrinth.com/data/P7dR8mSH/icon.png" alt="Fabric API" style="height: 1em">
+      <span>Fabric API</span>
+    </a>
+  </li>
+  <li>
+    <a href="https://modrinth.com/mod/fabric-language-kotlin" style="display: flex; column-gap: 0.25em; align-items: center">
+      <img src="https://cdn.modrinth.com/data/Ha28R6CL/icon.png" alt="Fabric API" style="height: 1em">
+      <span>Fabric Language Kotlin</span>
+    </a>
+  </li>
+</ul>
