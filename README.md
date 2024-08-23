@@ -6,14 +6,18 @@
 
 # Vanilla* Horses
 
-Minecraft Fabric mod for horses as viable mode of transportation.
+Ride horses in your world again!
+
+This mod is a long-needed update to horses that still stays within the spirit of vanilla Minecraft.
+It improves horse movement, lets you customize horse armor, adds horseshoes for walking across
+rivers, and more.
 
 ## <img src=".github/assets/spyglass.png" alt="Spyglass" style="height: 1em"> Overview
 
-Horses are slow compared to endgame modes of transportation like elytras, and they are impractical
-early- and midgame in face of common terrain features like forests and rivers. They are also very
-outdated—except for breeding tweaks in 2023 (JE 1.19.4/BE 1.19.70), they’ve seen no meaningful
-improvements in their mechanics since their first introduction in 2013 (JE 1.6.1).
+Horses are slow compared to endgame modes of transportation like elytras. They should be attractive
+early- and midgame, but they’re impractical in face of common terrain features like forests and
+rivers. They’re also very outdated—except for breeding tweaks in 2023 ([JE 1.19.4](https://minecraft.wiki/w/Java_Edition_1.19.4)/[BE 1.19.70](https://minecraft.wiki/w/Bedrock_Edition_1.19.70)),
+they’ve seen no meaningful improvements in their mechanics since their first introduction in 2013 ([JE 1.6.1](https://minecraft.wiki/w/Java_Edition_1.6.1)).
 
 This mod catches up horses to modern Minecraft and makes them a viable, competitive and pleasant
 mode of transportation.
@@ -26,10 +30,12 @@ mode of transportation.
 
 ### Horse Movement
 
-- **Remove leaves collision** in certain cases for ridden horses (and other rideable animals)
-- **Automatically leash horses** (and other rideable animals) when automatically dismounting
-  underwater, if leads are in the player’s inventory
-- Horses (and donkeys and mules) **swim faster** in water
+- **Remove leaves collision** in certain cases for ridden horses (and other ridden animals),
+  especially under trees
+- **Automatically leash** horses (and other rideable animals) **when automatically dismounting
+  underwater**, if leads are in the player’s inventory
+- Horses (and donkeys and mules) **move faster in water**—horses in real life are excellent
+  swimmers!
 
 ### Horse Armor
 
@@ -47,7 +53,7 @@ mode of transportation.
 
 ### Horseshoe
 
-- Add **horseshoes**, crafted with copper ingots
+- **Horseshoes**, crafted with copper ingots
 - **Speeds up horses** (and donkeys and mules) when equipped in the new horseshoe slot
 - Support **enchanting** with all generic and boots-specific enchantments (Depth Strider, Feather
   Falling, Frost Walker, Soul Speed)
