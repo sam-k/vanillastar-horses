@@ -28,7 +28,7 @@ val fabric_kotlin_version: String by project
 val palantir_java_format_version: String by project
 val ktfmt_version: String by project
 
-version = mod_version
+version = "$mod_version+$minecraft_version"
 group = maven_group
 
 base {
@@ -67,6 +67,7 @@ tasks.named<ProcessResources>("processResources") {
     expand(
         mapOf(
             "version" to version,
+            "minecraft_version" to minecraft_version,
             "minecraft_target_version" to minecraft_target_version,
             "fabric_loader_version" to fabric_loader_version,
         )
@@ -94,7 +95,7 @@ java {
 tasks.named<Jar>("jar") {
   from("LICENSE") {
     rename {
-      "${it}_${archives_base_name}"
+      "${it}_$archives_base_name"
     }
   }
 }

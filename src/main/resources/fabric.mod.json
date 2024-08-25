@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "vshorses",
-  "version": "${version}",
+  "version": "${version}+${minecraft_version}",
   "name": "Vanilla* Horses",
   "description": "Makes horses a viable mode of transportation.",
   "authors": [
