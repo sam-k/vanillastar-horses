@@ -7,9 +7,16 @@ on:
   push:
     branches:
       - main
+  workflow_call:
+    inputs:
+      java_version:
+        type: string
+
+env:
+  JAVA_VERSION: "21"
 
 jobs:
-  build-gradle-project:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Check out project sources
@@ -20,7 +27,7 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          java-version: 21
+          java-version: ${{ inputs.java_version || env.JAVA_VERSION }}
           distribution: temurin
 
       - name: Set up Gradle

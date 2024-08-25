@@ -1,0 +1,31 @@
+name: Publish on GitHub & Modrinth
+
+on:
+  - workflow_dispatch
+
+env:
+  JAVA_VERSION: "21"
+  MINECRAFT_VERSION: "1.21"
+  MODRINTH_ID: HC0n5kCz # From https://modrinth.com/mod/vanillastar-horses
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Build Gradle project
+        uses: ./.github/workflows/build.yml
+        with:
+          java_version: ${{ env.JAVA_VERSION }}
+
+      - name: Publish project
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          java: ${{ env.JAVA_VERSION }}
+          game-versions: ${{ env.MINECRAFT_VERSION }}
+          loaders: fabric
+          github-token: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
+          modrinth-id: ${{ env.MODRINTH_ID }}
+          modrinth-token: ${{ secrets.PUBLISH_MODRINTH_TOKEN }}
