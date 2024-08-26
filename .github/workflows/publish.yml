@@ -3,9 +3,6 @@ name: Publish on GitHub & Modrinth
 on:
   - workflow_dispatch
 
-env:
-  MODRINTH_ID: HC0n5kCz # From https://modrinth.com/mod/vanillastar-horses
-
 permissions:
   contents: write
 
