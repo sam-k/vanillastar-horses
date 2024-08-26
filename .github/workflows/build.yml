@@ -8,37 +8,10 @@ on:
     branches:
       - main
   workflow_call:
-    inputs:
-      java_version:
-        type: string
-
-env:
-  JAVA_VERSION: "21"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out project sources
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Set up JDK
-        uses: actions/setup-java@v4
-        with:
-          java-version: ${{ inputs.java_version || env.JAVA_VERSION }}
-          distribution: temurin
-
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v3
-        with:
-          build-scan-publish: true
-          build-scan-terms-of-use-url: https://gradle.com/terms-of-service
-          build-scan-terms-of-use-agree: yes
-
-      - name: Generate wrapper
-        run: gradle wrapper
-
-      - name: Run build
-        run: ./gradlew build
+      - name: Build Gradle project
+        uses: .github/actions/build-gradle-project/action.yml

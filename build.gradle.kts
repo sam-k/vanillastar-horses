@@ -12,6 +12,7 @@ plugins {
 }
 
 val gradle_version: String by project
+val java_version: String by project
 
 val mod_version: String by project
 val maven_group: String by project
@@ -20,6 +21,7 @@ val access_widener_path: String by project
 
 val minecraft_version: String by project
 val minecraft_target_version: String by project
+
 val fabric_yarn_mappings: String by project
 val fabric_loader_version: String by project
 val fabric_api_version: String by project
@@ -76,20 +78,20 @@ tasks.named<ProcessResources>("processResources") {
 }
 
 tasks.named<JavaCompile>("compileJava") {
-  options.release = 21
+  options.release = java_version.toInt()
 }
 
 tasks.named<KotlinCompile>("compileKotlin") {
   compilerOptions {
-    jvmTarget.set(JvmTarget.JVM_21)
+    jvmTarget.set(JvmTarget.fromTarget(java_version))
   }
 }
 
 java {
   withSourcesJar()
 
-  sourceCompatibility = JavaVersion.VERSION_21
-  targetCompatibility = JavaVersion.VERSION_21
+  sourceCompatibility = JavaVersion.toVersion(java_version)
+  targetCompatibility = JavaVersion.toVersion(java_version)
 }
 
 tasks.named<Jar>("jar") {

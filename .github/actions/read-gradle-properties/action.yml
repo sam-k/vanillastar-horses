@@ -1,0 +1,22 @@
+name: Read Gradle properties
+
+inputs:
+  key:
+    required: true
+
+outputs:
+  value:
+    value: ${{ steps.parse.outputs.value }}
+
+runs:
+  using: composite
+  steps:
+    - name: Check out project sources
+      uses: actions/checkout@v4
+
+    - name: Parse Gradle properties
+      id: parse
+      run: |
+        value="$(cat gradle.properties | perl -alne 'print "$1" if /^'"${{ inputs.key }}"'=(.+)/')"
+        echo "value=${value}" >> $GITHUB_OUTPUT
+      shell: bash

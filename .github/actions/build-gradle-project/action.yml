@@ -1,0 +1,40 @@
+name: Build Gradle project
+
+inputs:
+  java-version:
+
+runs:
+  using: composite
+  steps:
+    - name: Check out project sources
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Get Java version
+      id: get-java-version
+      if: inputs.java-version == ''
+      uses: .github/actions/read-gradle-properties/action.yml
+      with:
+        key: java_version
+
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ inputs.java-version || needs.get-java-version.outputs.value }}
+        distribution: temurin
+
+    - name: Set up Gradle
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        build-scan-publish: true
+        build-scan-terms-of-use-url: https://gradle.com/terms-of-service
+        build-scan-terms-of-use-agree: yes
+
+    - name: Generate wrapper
+      run: gradle wrapper
+      shell: bash
+
+    - name: Run build
+      run: ./gradlew build
+      shell: bash

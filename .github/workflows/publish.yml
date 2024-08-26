@@ -4,8 +4,6 @@ on:
   - workflow_dispatch
 
 env:
-  JAVA_VERSION: "21"
-  MINECRAFT_VERSION: "1.21"
   MODRINTH_ID: HC0n5kCz # From https://modrinth.com/mod/vanillastar-horses
 
 permissions:
@@ -15,17 +13,51 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+      - name: Get Java version
+        id: get-java-version
+        uses: .github/actions/read-gradle-properties/action.yml
+        with:
+          key: java_version
+
+      - name: Get mod version
+        id: get-mod-version
+        uses: .github/actions/read-gradle-properties/action.yml
+        with:
+          key: mod_version
+
+      - name: Get Minecraft version
+        id: get-mc-version
+        uses: .github/actions/read-gradle-properties/action.yml
+        with:
+          key: minecraft_version
+
+      - name: Get Minecraft target version
+        id: get-mc-target-version
+        uses: .github/actions/read-gradle-properties/action.yml
+        with:
+          key: minecraft_target_version
+
       - name: Build Gradle project
         uses: ./.github/workflows/build.yml
-        with:
-          java_version: ${{ env.JAVA_VERSION }}
 
       - name: Publish project
         uses: Kir-Antipov/mc-publish@v3.3
         with:
-          java: ${{ env.JAVA_VERSION }}
-          game-versions: ${{ env.MINECRAFT_VERSION }}
+          name: |
+            v${{ needs.get-mod-version.outputs.value }} for Minecraft ${{ needs.get-mc-version.outputs.value }}
+          version: |
+            ${{ needs.get-mod-version.outputs.value }}+${{ needs.get-mc-version.outputs.value }}
+          version-type: release
+
+          java: ${{ needs.get-java-version.outputs.value }}
+          game-versions: ${{ needs.get-mc-target-version.outputs.value }}
           loaders: fabric
+
+          github-generate-changelog: true
+          github-tag: |
+            v${{ needs.get-mod-version.outputs.value }}+${{ needs.get-mc-version.outputs.value }}
           github-token: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
+
           modrinth-id: ${{ env.MODRINTH_ID }}
+          modrinth-featured: true
           modrinth-token: ${{ secrets.PUBLISH_MODRINTH_TOKEN }}
