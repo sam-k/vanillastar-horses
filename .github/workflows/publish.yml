@@ -1,6 +1,9 @@
 name: Publish on GitHub & Modrinth
 
 on:
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
     inputs:
       java-version: {}
@@ -56,11 +59,12 @@ jobs:
           java: ${{ env.JAVA_VERSION }}
           game-versions: ${{ env.MC_TARGET_VERSION }}
           loaders: fabric
+          files: build/libs/!(*-sources).jar
 
           github-generate-changelog: true
           github-tag: v${{ env.MOD_VERSION }}+${{ env.MC_VERSION }}
           github-token: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
 
-          modrinth-id: ${{ env.MODRINTH_ID }}
-          modrinth-featured: true
-          modrinth-token: ${{ secrets.PUBLISH_MODRINTH_TOKEN }}
+#          modrinth-id: ${{ env.MODRINTH_ID }}
+#          modrinth-featured: true
+#          modrinth-token: ${{ secrets.PUBLISH_MODRINTH_TOKEN }}
