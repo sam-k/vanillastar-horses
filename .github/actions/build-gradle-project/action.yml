@@ -22,7 +22,7 @@ runs:
       run: |
         echo "${{ steps.get-gradle-properties.outputs.entries }}" >> $GITHUB_ENV
         if [ -n "${{ inputs.java-version }}" ]; then \
-          echo "JAVA_VERSION='${{ inputs.java-version }}'" >> $GITHUB_ENV; \
+          echo "JAVA_VERSION=${{ inputs.java-version }}" >> $GITHUB_ENV; \
         fi
       shell: bash
 
