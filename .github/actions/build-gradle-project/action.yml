@@ -20,7 +20,7 @@ runs:
 
     - name: Resolve environment variables
       run: |
-        echo "${{ needs.get-gradle-properties.outputs.entries }}" >> $GITHUB_ENV
+        echo "${{ steps.get-gradle-properties.outputs.entries }}" >> $GITHUB_ENV
         if [ -n "${{ inputs.java-version }}" ]; then \
           echo "JAVA_VERSION='${{ inputs.java-version }}'" >> $GITHUB_ENV; \
         fi
