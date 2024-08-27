@@ -11,17 +11,24 @@ runs:
       with:
         fetch-depth: 0
 
-    - name: Get Java version
-      id: get-java-version
-      if: ${{ inputs.java-version }} == ''
+    - name: Get Gradle properties
+      id: get-gradle-properties
       uses: .github/actions/read-gradle-properties/action.yml
       with:
-        key: java_version
+        keys: java_version
+
+    - name: Resolve environment variables
+      run: |
+        echo "${{ needs.get-gradle-properties.outputs.entries }}" >> $GITHUB_ENV
+        if [ -n "${{ inputs.java-version }}" ]; then \
+          echo "JAVA_VERSION='${{ inputs.java-version }}'" >> $GITHUB_ENV; \
+        fi
+      shell: bash
 
     - name: Set up JDK
       uses: actions/setup-java@v4
       with:
-        java-version: ${{ inputs.java-version || needs.get-java-version.outputs.value }}
+        java-version: ${{ env.JAVA_VERSION }}
         distribution: temurin
 
     - name: Set up Gradle

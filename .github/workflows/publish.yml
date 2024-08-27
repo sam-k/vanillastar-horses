@@ -3,10 +3,10 @@ name: Publish on GitHub & Modrinth
 on:
   workflow_dispatch:
     inputs:
-      java-version: {}
-      mod-version: {}
-      mc-version: {}
-      mc-target-version: {}
+      java-version:
+      mod-version:
+      minecraft-version:
+      minecraft-target-version:
 
 permissions:
   contents: write
@@ -18,43 +18,30 @@ jobs:
       - name: Check out project sources
         uses: actions/checkout@v4
         with:
-          sparse-checkout: |
-            .github/
+          sparse-checkout: .github/
 
-      - name: Get Java version
-        id: get-java-version
-        if: ${{ inputs.java-version }} == ''
+      - name: Get Gradle properties
+        id: get-gradle-properties
         uses: .github/actions/read-gradle-properties/action.yml
         with:
-          key: java_version
-
-      - name: Get mod version
-        id: get-mod-version
-        if: ${{ inputs.mod-version }} == ''
-        uses: .github/actions/read-gradle-properties/action.yml
-        with:
-          key: mod_version
-
-      - name: Get Minecraft version
-        id: get-mc-version
-        if: ${{ inputs.mc-version }} == ''
-        uses: .github/actions/read-gradle-properties/action.yml
-        with:
-          key: minecraft_version
-
-      - name: Get Minecraft target version
-        id: get-mc-target-version
-        if: ${{ inputs.mc-target-version }} == ''
-        uses: .github/actions/read-gradle-properties/action.yml
-        with:
-          key: minecraft_target_version
+          keys: java_version, mod_version, minecraft_version, minecraft_target_version
 
       - name: Resolve environment variables
         run: |
-          echo "JAVA_VERSION=${${{ inputs.java-version }}:-${{ needs.get-java-version.outputs.value }}}" >> $GITHUB_ENV
-          echo "MOD_VERSION=${${{ inputs.mod-version }}:-${{ needs.get-mod-version.outputs.value }}}" >> $GITHUB_ENV
-          echo "MC_VERSION=${${{ inputs.mc-version }}:-${{ needs.get-mc-version.outputs.value }}}" >> $GITHUB_ENV
-          echo "MC_TARGET_VERSION=${${{ inputs.mc-target-version }}:-${{ needs.get-mc-target-version.outputs.value }}}" >> $GITHUB_ENV
+          echo "${{ needs.get-gradle-properties.outputs.entries }}" >> $GITHUB_ENV
+          if [ -n "${{ inputs.java-version }}" ]; then \
+            echo "JAVA_VERSION='${{ inputs.java-version }}'" >> $GITHUB_ENV; \
+          fi
+          if [ -n "${{ inputs.mod-version }}" ]; then \
+            echo "JAVA_VERSION='${{ inputs.java-version }}'" >> $GITHUB_ENV; \
+          fi
+          if [ -n "${{ inputs.minecraft-version }}" ]; then \
+            echo "MINECRAFT_VERSION='${{ inputs.minecraft-version }}'" >> $GITHUB_ENV; \
+          fi
+          if [ -n "${{ inputs.minecraft-target-version }}" ]; then \
+            echo "MINECRAFT_TARGET_VERSION='${{ inputs.minecraft-target-version }}'" >> $GITHUB_ENV; \
+          fi
+        shell: bash
 
       - name: Build Gradle project
         uses: ./.github/workflows/build.yml
