@@ -1,0 +1,72 @@
+name: Publish on GitHub & Modrinth
+
+on:
+  workflow_dispatch:
+    inputs:
+      java-version:
+        type: string
+      mod-version:
+        type: string
+      minecraft-version:
+        type: string
+      minecraft-target-version:
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out project sources
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/
+
+      - name: Get Gradle properties
+        id: get-gradle-properties
+        uses: ./.github/actions/read-gradle-properties
+        with:
+          keys: java_version, mod_version, minecraft_version, minecraft_target_version
+
+      - name: Resolve environment variables
+        run: |
+          echo "${{ steps.get-gradle-properties.outputs.entries }}" >> $GITHUB_ENV
+          if [ -n "${{ inputs.java-version }}" ]; then \
+            echo "JAVA_VERSION='${{ inputs.java-version }}'" >> $GITHUB_ENV; \
+          fi
+          if [ -n "${{ inputs.mod-version }}" ]; then \
+            echo "MOD_VERSION='${{ inputs.mod-version }}'" >> $GITHUB_ENV; \
+          fi
+          if [ -n "${{ inputs.minecraft-version }}" ]; then \
+            echo "MINECRAFT_VERSION='${{ inputs.minecraft-version }}'" >> $GITHUB_ENV; \
+          fi
+          if [ -n "${{ inputs.minecraft-target-version }}" ]; then \
+            echo "MINECRAFT_TARGET_VERSION='${{ inputs.minecraft-target-version }}'" >> $GITHUB_ENV; \
+          fi
+        shell: bash
+
+      - name: Build Gradle project
+        uses: ./.github/actions/build-gradle-project
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Publish project
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          name: v${{ env.MOD_VERSION }} for Minecraft ${{ env.MINECRAFT_VERSION }}
+          version: ${{ env.MOD_VERSION }}+${{ env.MINECRAFT_VERSION }}
+          version-type: release
+
+          java: ${{ env.JAVA_VERSION }}
+          game-versions: ${{ env.MINECRAFT_TARGET_VERSION }}
+          files: build/libs/!(*-sources).jar
+
+          github-generate-changelog: true
+          github-tag: v${{ env.MOD_VERSION }}+${{ env.MINECRAFT_VERSION }}
+          github-token: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
+
+          modrinth-id: ${{ env.MODRINTH_ID }}
+          modrinth-featured: true
+          modrinth-token: ${{ secrets.PUBLISH_MODRINTH_TOKEN }}

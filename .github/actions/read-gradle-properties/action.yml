@@ -1,0 +1,27 @@
+name: Read Gradle properties
+
+inputs:
+  keys:
+    description: Comma-separated Gradle property keys
+    required: true
+
+outputs:
+  entries:
+    description: Gradle property entries, formatted as KEY=value
+    value: ${{ steps.parse.outputs.entries }}
+
+runs:
+  using: composite
+  steps:
+    - name: Check out project sources
+      uses: actions/checkout@v4
+
+    - name: Parse Gradle properties
+      id: parse
+      run: |
+        echo 'entries<<EOF' >> $GITHUB_OUTPUT
+        cat gradle.properties | {
+          perl -alne 'my $keys = "'"${{ inputs.keys }}"'" =~ s/,\s*/|/gr; print "${\(uc($1))}=$2" if /^($keys)=(.+)/'
+        } >> $GITHUB_OUTPUT
+        echo 'EOF' >> $GITHUB_OUTPUT
+      shell: bash

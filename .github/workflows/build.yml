@@ -1,0 +1,27 @@
+name: Build Gradle project
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+  workflow_call:
+    inputs:
+      java-version:
+        type: string
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out project sources
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: .github/
+
+      - name: Build Gradle project
+        uses: ./.github/actions/build-gradle-project
+        with:
+          java-version: ${{ inputs.java-version }}
