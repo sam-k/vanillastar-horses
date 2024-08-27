@@ -8,6 +8,8 @@ on:
     branches:
       - main
   workflow_call:
+    inputs:
+      java-version: {}
 
 jobs:
   build:
@@ -15,3 +17,5 @@ jobs:
     steps:
       - name: Build Gradle project
         uses: .github/actions/build-gradle-project/action.yml
+        with:
+          java-version: java-version
