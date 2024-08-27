@@ -3,10 +3,14 @@ name: Publish on GitHub & Modrinth
 on:
   workflow_dispatch:
     inputs:
-      java-version: {}
-      mod-version: {}
-      minecraft-version: {}
-      minecraft-target-version: {}
+      java-version:
+        type: string
+      mod-version:
+        type: string
+      minecraft-version:
+        type: string
+      minecraft-target-version:
+        type: string
 
 permissions:
   contents: write
