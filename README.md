@@ -22,6 +22,9 @@ they’ve seen no meaningful improvements in their mechanics since their first i
 This mod catches up horses to modern Minecraft and makes them a viable, competitive and pleasant
 mode of transportation.
 
+(Bonus: This also makes the Frost Walker enchantment useful instead of a novelty. Applied to
+horseshoes, it lets your horse run across water with ease.)
+
 <p align="center">
   <img src=".github/assets/screenshot.png" width="600" alt="Black horse with gold-trimmed netherite armor and horseshoes standing on a frosted river">
 </p>
@@ -30,8 +33,10 @@ mode of transportation.
 
 ### Horse Movement
 
-- **Remove leaves collision** in certain cases for ridden horses (and other ridden animals),
+- **Remove leaves collision in certain cases** for ridden horses (and other ridden animals),
   especially under trees
+  - Leaves lose collision if at your horse’s eye level and above a non-collidable block.
+  - This means your horse can navigate forests with ease as well as run on treetops as before.
 - **Automatically leash** horses (and other rideable animals) **when automatically dismounting
   underwater**, if leads are in the player’s inventory
 - Horses (and donkeys and mules) **move faster in water**—horses in real life are excellent
@@ -72,5 +77,10 @@ mode of transportation.
 As a Fabric mod, this mod requires the [Fabric Loader](https://fabricmc.net/). It also needs the
 following dependencies:
 
-- <img src="https://cdn.modrinth.com/data/P7dR8mSH/icon.png" style="height: 1em" alt="Fabric API"> <a href="https://modrinth.com/mod/fabric-api">Fabric API</a>
-- <img src="https://cdn.modrinth.com/data/Ha28R6CL/icon.png" style="height: 1em" alt="Fabric Language Kotlin"> <a href="https://modrinth.com/mod/fabric-language-kotlin">Fabric Language Kotlin</a>
+- <img src="https://cdn.modrinth.com/data/P7dR8mSH/icon.png" style="height: 1em" alt="Fabric API"> [Fabric API](https://modrinth.com/mod/fabric-api)
+- <img src="https://cdn.modrinth.com/data/Ha28R6CL/icon.png" style="height: 1em" alt="Fabric Language Kotlin"> [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin)
+
+### Downloads
+
+You can find downloadable versions of the mod in the
+[Releases](https://github.com/sam-k/vanillastar-horses/releases) page.
