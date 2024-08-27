@@ -15,6 +15,12 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out project sources
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github/
+
       - name: Get Java version
         id: get-java-version
         if: ${{ inputs.java-version }} == ''

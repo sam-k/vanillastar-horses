@@ -15,6 +15,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out project sources
+        uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            .github/
+
       - name: Build Gradle project
         uses: .github/actions/build-gradle-project/action.yml
         with:
