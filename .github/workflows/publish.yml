@@ -22,7 +22,7 @@ jobs:
 
       - name: Get Gradle properties
         id: get-gradle-properties
-        uses: ./.github/actions/read-gradle-properties/action.yml
+        uses: ./.github/actions/read-gradle-properties
         with:
           keys: java_version, mod_version, minecraft_version, minecraft_target_version
 

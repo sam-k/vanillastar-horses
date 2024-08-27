@@ -23,6 +23,6 @@ jobs:
             .github/
 
       - name: Build Gradle project
-        uses: ./.github/actions/build-gradle-project/action.yml
+        uses: ./.github/actions/build-gradle-project
         with:
           java-version: java-version
