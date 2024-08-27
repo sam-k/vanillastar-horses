@@ -7,8 +7,8 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
   id("fabric-loom") version "1.7-SNAPSHOT"
   id("maven-publish")
-  id("org.jetbrains.kotlin.jvm") version "2.0.0"
-  id("com.diffplug.spotless") version "7.0.0.BETA1"
+  kotlin("jvm") version "2.0.20"
+  id("com.diffplug.spotless") version "7.0.0.BETA2"
 }
 
 val gradle_version: String by project
@@ -20,10 +20,11 @@ val archives_base_name: String by project
 val access_widener_path: String by project
 
 val minecraft_version: String by project
-val minecraft_target_version: String by project
+val minecraft_target_versions: String by project
 
 val fabric_yarn_mappings: String by project
 val fabric_loader_version: String by project
+val fabric_loader_target_versions: String by project
 val fabric_api_version: String by project
 val fabric_kotlin_version: String by project
 
@@ -69,9 +70,8 @@ tasks.named<ProcessResources>("processResources") {
     expand(
         mapOf(
             "version" to version,
-            "minecraft_version" to minecraft_version,
-            "minecraft_target_version" to minecraft_target_version,
-            "fabric_loader_version" to fabric_loader_version,
+            "minecraft_target_versions" to minecraft_target_versions,
+            "fabric_loader_target_versions" to fabric_loader_target_versions,
         )
     )
   }
@@ -106,7 +106,13 @@ extensions.configure<SpotlessExtension>("spotless") {
   ratchetFrom("origin/main")
 
   format("misc") {
-    target("*.gradle", ".git-blame-ignore-revs", ".gitignore")
+    target(
+        "*.gradle.*",
+        ".editorconfig",
+        ".git-blame-ignore-revs",
+        ".gitignore",
+        "gradle.properties",
+    )
 
     trimTrailingWhitespace()
     indentWithSpaces(2)
