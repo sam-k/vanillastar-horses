@@ -19,8 +19,7 @@ jobs:
       - name: Check out project sources
         uses: actions/checkout@v4
         with:
-          sparse-checkout: |
-            .github/
+          sparse-checkout: .github/
 
       - name: Build Gradle project
         uses: ./.github/actions/build-gradle-project
