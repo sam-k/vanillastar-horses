@@ -9,7 +9,7 @@ on:
         type: string
       minecraft-version:
         type: string
-      minecraft-target-version:
+      minecraft-target-versions:
         type: string
 
 permissions:
@@ -28,7 +28,7 @@ jobs:
         id: get-gradle-properties
         uses: ./.github/actions/read-gradle-properties
         with:
-          keys: java_version, mod_version, minecraft_version, minecraft_target_version
+          keys: java_version, mod_version, minecraft_version, minecraft_target_versions
 
       - name: Resolve environment variables
         run: |
@@ -42,8 +42,8 @@ jobs:
           if [ -n "${{ inputs.minecraft-version }}" ]; then \
             echo "MINECRAFT_VERSION='${{ inputs.minecraft-version }}'" >> $GITHUB_ENV; \
           fi
-          if [ -n "${{ inputs.minecraft-target-version }}" ]; then \
-            echo "MINECRAFT_TARGET_VERSION='${{ inputs.minecraft-target-version }}'" >> $GITHUB_ENV; \
+          if [ -n "${{ inputs.minecraft-target-versions }}" ]; then \
+            echo "MINECRAFT_TARGET_VERSIONS='${{ inputs.minecraft-target-versions }}'" >> $GITHUB_ENV; \
           fi
         shell: bash
 
@@ -60,7 +60,7 @@ jobs:
           version-type: release
 
           java: ${{ env.JAVA_VERSION }}
-          game-versions: ${{ env.MINECRAFT_TARGET_VERSION }}
+          game-versions: ${{ env.MINECRAFT_TARGET_VERSIONS }}
           files: build/libs/!(*-sources).jar
 
           github-generate-changelog: true

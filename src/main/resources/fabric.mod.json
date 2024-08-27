@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
   "id": "vshorses",
-  "version": "${version}+${minecraft_version}",
+  "version": "${version}",
   "name": "Vanilla* Horses",
-  "description": "Makes horses a viable mode of transportation.",
+  "description": "Ride horses in your world again!",
   "authors": [
     "Sam Kim"
   ],
@@ -14,6 +14,16 @@
   },
   "license": "MIT",
   "icon" : "vshorses-icon.png",
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.github_releases" : "https://github.com/sam-k/vanillastar-horses/releases",
+        "modmenu.modrinth" : "https://modrinth.com/mod/vanillastar-horses",
+        "modmenu.kofi" : "https://ko-fi.com/sam_k"
+      },
+      "update_checker": true
+    }
+  },
   "environment": "*",
   "entrypoints": {
     "fabric-datagen": [
@@ -31,8 +41,8 @@
   ],
   "accessWidener": "vshorses.accesswidener",
   "depends": {
-    "fabricloader": ">=${fabric_loader_version}",
-    "minecraft": "~${minecraft_target_version}",
+    "minecraft": "${minecraft_target_versions}",
+    "fabricloader": "${fabric_loader_target_versions}",
     "fabric-api": "*",
     "fabric-language-kotlin": "*"
   }
