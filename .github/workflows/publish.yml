@@ -67,6 +67,6 @@ jobs:
           github-tag: v${{ env.MOD_VERSION }}+${{ env.MINECRAFT_VERSION }}
           github-token: ${{ secrets.PUBLISH_GITHUB_TOKEN }}
 
-          modrinth-id: ${{ env.MODRINTH_ID }}
+          modrinth-id: ${{ vars.MODRINTH_ID }}
           modrinth-featured: true
           modrinth-token: ${{ secrets.PUBLISH_MODRINTH_TOKEN }}
