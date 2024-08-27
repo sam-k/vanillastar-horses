@@ -34,16 +34,16 @@ jobs:
         run: |
           echo "${{ steps.get-gradle-properties.outputs.entries }}" >> $GITHUB_ENV
           if [ -n "${{ inputs.java-version }}" ]; then \
-            echo "JAVA_VERSION='${{ inputs.java-version }}'" >> $GITHUB_ENV; \
+            echo "JAVA_VERSION=${{ inputs.java-version }}" >> $GITHUB_ENV; \
           fi
           if [ -n "${{ inputs.mod-version }}" ]; then \
-            echo "MOD_VERSION='${{ inputs.mod-version }}'" >> $GITHUB_ENV; \
+            echo "MOD_VERSION=${{ inputs.mod-version }}" >> $GITHUB_ENV; \
           fi
           if [ -n "${{ inputs.minecraft-version }}" ]; then \
-            echo "MINECRAFT_VERSION='${{ inputs.minecraft-version }}'" >> $GITHUB_ENV; \
+            echo "MINECRAFT_VERSION=${{ inputs.minecraft-version }}" >> $GITHUB_ENV; \
           fi
           if [ -n "${{ inputs.minecraft-target-versions }}" ]; then \
-            echo "MINECRAFT_TARGET_VERSIONS='${{ inputs.minecraft-target-versions }}'" >> $GITHUB_ENV; \
+            echo "MINECRAFT_TARGET_VERSIONS=${{ inputs.minecraft-target-versions }}" >> $GITHUB_ENV; \
           fi
         shell: bash
 
