@@ -25,4 +25,4 @@ jobs:
       - name: Build Gradle project
         uses: ./.github/actions/build-gradle-project
         with:
-          java-version: java-version
+          java-version: ${{ inputs.java-version }}
