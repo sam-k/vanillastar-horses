@@ -47,7 +47,7 @@ jobs:
         shell: bash
 
       - name: Build Gradle project
-        uses: ./.github/workflows/build.yml
+        uses: ./.github/actions/build-gradle-project
 
       - name: Publish project
         uses: Kir-Antipov/mc-publish@v3.3
