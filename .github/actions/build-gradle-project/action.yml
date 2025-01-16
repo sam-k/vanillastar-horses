@@ -1,6 +1,8 @@
 name: Build Gradle project
 
 inputs:
+  gradle-version:
+    type: string
   java-version:
     type: string
 
@@ -16,11 +18,14 @@ runs:
       id: get-gradle-properties
       uses: ./.github/actions/read-gradle-properties
       with:
-        keys: java_version
+        keys: gradle_version, java_version
 
     - name: Resolve environment variables
       run: |
         echo "${{ steps.get-gradle-properties.outputs.entries }}" >> $GITHUB_ENV
+        if [ -n "${{ inputs.gradle-version }}" ]; then \
+          echo "GRADLE_VERSION=${{ inputs.gradle-version }}" >> $GITHUB_ENV; \
+        fi
         if [ -n "${{ inputs.java-version }}" ]; then \
           echo "JAVA_VERSION=${{ inputs.java-version }}" >> $GITHUB_ENV; \
         fi
@@ -35,6 +40,7 @@ runs:
     - name: Set up Gradle
       uses: gradle/actions/setup-gradle@v3
       with:
+        gradle-version: ${{ env.GRADLE_VERSION }}
         build-scan-publish: true
         build-scan-terms-of-use-url: https://gradle.com/terms-of-service
         build-scan-terms-of-use-agree: yes
