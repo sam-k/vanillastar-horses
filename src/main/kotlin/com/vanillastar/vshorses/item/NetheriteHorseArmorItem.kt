@@ -1,7 +1,11 @@
 package com.vanillastar.vshorses.item
 
 import com.vanillastar.vshorses.utils.getModIdentifier
-import net.minecraft.item.*
+import net.minecraft.item.AnimalArmorItem
+import net.minecraft.item.ArmorItem
+import net.minecraft.item.ArmorMaterials
+import net.minecraft.item.ItemGroup
+import net.minecraft.item.ItemGroups
 import net.minecraft.registry.RegistryKey
 
 abstract class NetheriteHorseArmorItem :
@@ -9,7 +13,7 @@ abstract class NetheriteHorseArmorItem :
     AnimalArmorItem(
         ArmorMaterials.NETHERITE,
         Type.EQUESTRIAN,
-        false,
+        /* hasOverlay= */ false,
         Settings()
             .maxDamage(
                 @Suppress("RemoveRedundantQualifierName")
