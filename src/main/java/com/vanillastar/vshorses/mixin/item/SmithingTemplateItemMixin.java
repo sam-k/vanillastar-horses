@@ -20,7 +20,18 @@ public abstract class SmithingTemplateItemMixin {
       getModIdentifier("item/empty_horse_armor_slot");
 
   @Inject(method = "getArmorTrimEmptyBaseSlotTextures", at = @At("RETURN"), cancellable = true)
-  private static void addHorseArmorEmptyBaseSlotTexture(
+  private static void addHorseArmorTrimSlotTexture(
+      @NotNull CallbackInfoReturnable<List<Identifier>> cir) {
+    cir.setReturnValue(
+        Stream.concat(cir.getReturnValue().stream(), Stream.of(EMPTY_HORSE_ARMOR_SLOT_TEXTURE))
+            .toList());
+  }
+
+  @Inject(
+      method = "getNetheriteUpgradeEmptyBaseSlotTextures",
+      at = @At("RETURN"),
+      cancellable = true)
+  private static void addHorseArmorUpgradeSlotTexture(
       @NotNull CallbackInfoReturnable<List<Identifier>> cir) {
     cir.setReturnValue(
         Stream.concat(cir.getReturnValue().stream(), Stream.of(EMPTY_HORSE_ARMOR_SLOT_TEXTURE))
