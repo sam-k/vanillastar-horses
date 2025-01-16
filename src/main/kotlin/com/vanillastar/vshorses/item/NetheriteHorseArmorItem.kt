@@ -13,9 +13,13 @@ abstract class NetheriteHorseArmorItem :
     AnimalArmorItem(
         ArmorMaterials.NETHERITE,
         Type.EQUESTRIAN,
-        false,
-        // Same durability as netherite armor.
-        Settings().maxDamage(ArmorItem.Type.BODY.getMaxDamage(37)),
+        /* hasOverlay= */ false,
+        Settings()
+            .maxDamage(
+                @Suppress("RemoveRedundantQualifierName")
+                ArmorItem.Type.BODY.getMaxDamage(37) // Same durability as netherite
+            )
+            .fireproof(),
     ) {
   override val id = getModIdentifier("netherite_horse_armor")
   override val itemGroup: RegistryKey<ItemGroup> = ItemGroups.COMBAT
