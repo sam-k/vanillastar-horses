@@ -15,11 +15,7 @@ import net.minecraft.entity.LivingEntity
 import net.minecraft.entity.attribute.EntityAttributeModifier
 import net.minecraft.entity.attribute.EntityAttributes
 import net.minecraft.entity.player.PlayerEntity
-import net.minecraft.item.Item
-import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemGroups
-import net.minecraft.item.ItemStack
-import net.minecraft.item.Items
+import net.minecraft.item.*
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.entry.RegistryEntry
 import net.minecraft.registry.tag.ItemTags
@@ -42,7 +38,12 @@ private val HORSESHOE_ITEM_MODIFIERS =
         .build()
 
 abstract class HorseshoeItem :
-    ModItem, Item(Settings().maxDamage(195).attributeModifiers(HORSESHOE_ITEM_MODIFIERS)) {
+    ModItem,
+    Item(
+        Settings()
+            .maxDamage(ArmorItem.Type.BOOTS.getMaxDamage(15)) // Same durability as iron
+            .attributeModifiers(HORSESHOE_ITEM_MODIFIERS)
+    ) {
   override val id = getModIdentifier("horseshoe")
   override val itemGroup: RegistryKey<ItemGroup> = ItemGroups.COMBAT
 
@@ -88,7 +89,7 @@ val HORSESHOE_ITEM =
 
       override fun isEnchantable(stack: ItemStack) = true
 
-      override fun getEnchantability() = 9 // Same as iron armor
+      override fun getEnchantability() = ArmorMaterials.IRON.value().enchantability
 
       /**
        * Adding enchantable horseshoes functions as a fix for:

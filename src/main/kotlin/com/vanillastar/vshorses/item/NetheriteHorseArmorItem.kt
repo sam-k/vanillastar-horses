@@ -1,11 +1,7 @@
 package com.vanillastar.vshorses.item
 
 import com.vanillastar.vshorses.utils.getModIdentifier
-import net.minecraft.item.AnimalArmorItem
-import net.minecraft.item.ArmorItem
-import net.minecraft.item.ArmorMaterials
-import net.minecraft.item.ItemGroup
-import net.minecraft.item.ItemGroups
+import net.minecraft.item.*
 import net.minecraft.registry.RegistryKey
 
 abstract class NetheriteHorseArmorItem :
@@ -14,8 +10,12 @@ abstract class NetheriteHorseArmorItem :
         ArmorMaterials.NETHERITE,
         Type.EQUESTRIAN,
         false,
-        // Same durability as netherite armor.
-        Settings().maxDamage(ArmorItem.Type.BODY.getMaxDamage(37)),
+        Settings()
+            .maxDamage(
+                @Suppress("RemoveRedundantQualifierName")
+                ArmorItem.Type.BODY.getMaxDamage(37) // Same durability as netherite
+            )
+            .fireproof(),
     ) {
   override val id = getModIdentifier("netherite_horse_armor")
   override val itemGroup: RegistryKey<ItemGroup> = ItemGroups.COMBAT
