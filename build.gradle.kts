@@ -8,7 +8,7 @@ plugins {
   id("fabric-loom") version "1.9-SNAPSHOT"
   id("maven-publish")
   kotlin("jvm") version "2.1.0"
-  id("com.diffplug.spotless") version "7.0.1"
+  id("com.diffplug.spotless") version "7.0.2"
 }
 
 val gradle_version: String by project
