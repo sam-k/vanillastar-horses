@@ -10,7 +10,7 @@ val NETHERITE_HORSE_ARMOR_ITEM_METADATA =
       ArmorMaterials.NETHERITE.applyBodyArmorSettings(
           it.fireproof().enchantable(ArmorMaterials.NETHERITE.enchantmentValue),
           SoundEvents.ENTITY_HORSE_ARMOR,
-          /* damageOnHurt = */ true,
+          /* damageOnHurt= */ true,
           AnimalArmorItem.Type.EQUESTRIAN.allowedEntities,
       )
     }

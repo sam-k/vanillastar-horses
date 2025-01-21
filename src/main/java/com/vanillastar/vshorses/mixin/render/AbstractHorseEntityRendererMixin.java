@@ -47,16 +47,11 @@ public abstract class AbstractHorseEntityRendererMixin<
           "updateRenderState(Lnet/minecraft/entity/passive/AbstractHorseEntity;Lnet/minecraft/client/render/entity/state/LivingHorseEntityRenderState;F)V",
       at = @At("TAIL"))
   private void updateHorseshoeRenderState(
-      TEntity abstractHorseEntity,
-      TState livingHorseEntityRenderState,
-      float tickDelta,
-      CallbackInfo ci) {
-    if (!(abstractHorseEntity instanceof VSHorseEntity vsHorseEntity)
-        || !(livingHorseEntityRenderState
-            instanceof VSHorseEntityRenderState vsHorseEntityRenderState)) {
-      return;
+      TEntity entity, TState state, float tickDelta, CallbackInfo ci) {
+    if (entity instanceof VSHorseEntity vsHorseEntity
+        && state instanceof VSHorseEntityRenderState vsHorseEntityRenderState) {
+      vsHorseEntityRenderState.vshorses$setHorseshoe(
+          vsHorseEntity.vshorses$getHorseshoeInventory().getStack());
     }
-    vsHorseEntityRenderState.vshorses$setHorseshoe(
-        vsHorseEntity.vshorses$getHorseshoeInventory().getStack());
   }
 }

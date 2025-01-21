@@ -47,6 +47,6 @@ public interface DispenserBehaviorMixin {
         return stack;
       }
     });
-    LOGGER.info("Registered dispenser behavior for item {}", MOD_ITEMS.horseshoeItem.getName());
+    LOGGER.info("Registered dispenser behavior for item {}", MOD_ITEMS.horseshoeItem);
   }
 }

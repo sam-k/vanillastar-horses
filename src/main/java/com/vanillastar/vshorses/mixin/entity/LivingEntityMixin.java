@@ -30,13 +30,9 @@ public abstract class LivingEntityMixin extends Entity {
       cancellable = true)
   private void getPreferredHorseshoeSlot(
       @NotNull ItemStack stack, CallbackInfoReturnable<EquipmentSlot> cir) {
-    if (!stack.isOf(MOD_ITEMS.horseshoeItem)) {
-      return;
-    }
-    if (this instanceof VSHorseEntity) {
-      cir.setReturnValue(EquipmentSlot.FEET);
-    } else {
-      cir.setReturnValue(EquipmentSlot.MAINHAND);
+    if (stack.isOf(MOD_ITEMS.horseshoeItem)) {
+      cir.setReturnValue(
+          this instanceof VSHorseEntity ? EquipmentSlot.FEET : EquipmentSlot.MAINHAND);
     }
   }
 

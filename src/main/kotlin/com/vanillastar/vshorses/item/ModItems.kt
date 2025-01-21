@@ -4,19 +4,9 @@ import com.vanillastar.vshorses.utils.ModRegistry
 import com.vanillastar.vshorses.utils.getModIdentifier
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents
 import net.minecraft.item.Item
-import net.minecraft.item.ItemGroup
 import net.minecraft.item.Items
 import net.minecraft.registry.RegistryKey
 import net.minecraft.registry.RegistryKeys
-
-data class ModItemMetadata(
-    /** Name for this [Item]. */
-    val name: String,
-    /** [RegistryKey] for this [Item] in the creative-mode inventory. */
-    val itemGroup: RegistryKey<ItemGroup>,
-    /** Settings for this [Item]. */
-    val settingsProvider: (Item.Settings) -> Item.Settings,
-)
 
 abstract class ModItems : ModRegistry() {
   @JvmField val horseshoeItem = registerItem(HORSESHOE_ITEM_METADATA, ::HorseshoeItem)
