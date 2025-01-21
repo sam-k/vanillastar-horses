@@ -7,23 +7,21 @@ import net.minecraft.client.model.ModelData
 import net.minecraft.client.model.ModelPart
 import net.minecraft.client.model.ModelPartBuilder
 import net.minecraft.client.model.ModelTransform
+import net.minecraft.client.render.entity.model.AbstractHorseEntityModel
 import net.minecraft.client.render.entity.model.EntityModelPartNames
 import net.minecraft.client.render.entity.model.HorseEntityModel
-import net.minecraft.entity.passive.AbstractHorseEntity
 
 /**
  * Entity model for horse armor.
  *
- * Most of the [ModelData] is copied from that of [HorseEntityModel], with omissions of parts not
- * applicable to horse armor (i.e., all saddle parts), and dilation applied to all parts so that no
- * horse armor part is flush with the horse itself. This prevents horse armor glint from being
- * applied to the entire horse.
+ * Most of the [ModelData] is copied from that of [AbstractHorseEntityModel], with omissions of
+ * parts not applicable to horse armor (i.e., all saddle parts), and dilation applied to all parts
+ * so that no horse armor part is flush with the horse itself. This prevents horse armor glint from
+ * being applied to the entire horse.
  */
 @Environment(EnvType.CLIENT)
-// Workaround for https://youtrack.jetbrains.com/issue/KT-12993.
-@Suppress("ACCIDENTAL_OVERRIDE")
-class HorseArmorEntityModel<TEntity : AbstractHorseEntity>(root: ModelPart) :
-    HorseEntityModel<TEntity>(root) {
+@Suppress("ACCIDENTAL_OVERRIDE") // Workaround for https://youtrack.jetbrains.com/issue/KT-12993
+class HorseArmorEntityModel(root: ModelPart) : HorseEntityModel(root) {
   companion object {
     @Override
     @JvmStatic
@@ -113,62 +111,76 @@ class HorseArmorEntityModel<TEntity : AbstractHorseEntity>(root: ModelPart) :
           ModelPartBuilder.create()
               .uv(48, 21)
               .mirrored()
-              .cuboid(-3.0f, -1.01f, -1.9f, 4.0f, 10.0f, 4.0f, dilation),
-          ModelTransform.pivot(4.0f, 14.0f, -12.0f),
+              .cuboid(-3.0f, -1.01f, -1.9f, 4.0f, /* sizeY= */ 11.0f - 1, 4.0f, dilation),
+          ModelTransform.pivot(4.0f, 14.0f, -10.0f),
       )
       root.addChild(
           EntityModelPartNames.RIGHT_FRONT_LEG,
           ModelPartBuilder.create()
               .uv(48, 21)
-              .cuboid(-1.0f, -1.01f, -1.9f, 4.0f, 10.0f, 4.0f, dilation),
-          ModelTransform.pivot(-4.0f, 14.0f, -12.0f),
+              .cuboid(-1.0f, -1.01f, -1.9f, 4.0f, /* sizeY= */ 11.0f - 1, 4.0f, dilation),
+          ModelTransform.pivot(-4.0f, 14.0f, -10.0f),
       )
       root.addChild(
           EntityModelPartNames.LEFT_HIND_LEG,
           ModelPartBuilder.create()
               .uv(48, 21)
               .mirrored()
-              .cuboid(-3.0f, -1.01f, -1.0f, 4.0f, 10.0f, 4.0f, dilation),
+              .cuboid(-3.0f, -1.01f, -1.0f, 4.0f, /* sizeY= */ 11.0f - 1, 4.0f, dilation),
           ModelTransform.pivot(4.0f, 14.0f, 7.0f),
       )
       root.addChild(
           EntityModelPartNames.RIGHT_HIND_LEG,
           ModelPartBuilder.create()
               .uv(48, 21)
-              .cuboid(-1.0f, -1.01f, -1.0f, 4.0f, 10.0f, 4.0f, dilation),
+              .cuboid(-1.0f, -1.01f, -1.0f, 4.0f, /* sizeY= */ 11.0f - 1, 4.0f, dilation),
           ModelTransform.pivot(-4.0f, 14.0f, 7.0f),
       )
 
-      // Foal's legs. `sizeY` is decreased by 1 to allow room for horseshoes.
+      return modelData
+    }
+
+    @Override
+    @JvmStatic
+    fun getBabyHorseModelData(dilation: Dilation): ModelData =
+        BABY_TRANSFORMER.apply(this.getBabyModelData(dilation))
+
+    @Override
+    @JvmStatic
+    fun getBabyModelData(dilation: Dilation): ModelData {
+      val modelData = getModelData(dilation)
+      val root = modelData.root
       val babyDilation = dilation.add(0.0f, 5.5f, 0.0f)
+
+      // Foal's legs. `sizeY` is decreased by 1 to allow room for horseshoes.
       root.addChild(
-          "left_front_baby_leg",
+          EntityModelPartNames.LEFT_FRONT_LEG,
           ModelPartBuilder.create()
               .uv(48, 21)
               .mirrored()
-              .cuboid(-3.0f, -1.01f, -1.9f, 4.0f, 10.0f, 4.0f, babyDilation),
-          ModelTransform.pivot(4.0f, 14.0f, -12.0f),
+              .cuboid(-3.0f, -1.01f, -1.9f, 4.0f, /* sizeY= */ 11.0f - 1, 4.0f, babyDilation),
+          ModelTransform.pivot(4.0f, 14.0f, -10.0f),
       )
       root.addChild(
-          "right_front_baby_leg",
+          EntityModelPartNames.RIGHT_FRONT_LEG,
           ModelPartBuilder.create()
               .uv(48, 21)
-              .cuboid(-1.0f, -1.01f, -1.9f, 4.0f, 10.0f, 4.0f, babyDilation),
-          ModelTransform.pivot(-4.0f, 14.0f, -12.0f),
+              .cuboid(-1.0f, -1.01f, -1.9f, 4.0f, /* sizeY= */ 11.0f - 1, 4.0f, babyDilation),
+          ModelTransform.pivot(-4.0f, 14.0f, -10.0f),
       )
       root.addChild(
-          "left_hind_baby_leg",
+          EntityModelPartNames.LEFT_HIND_LEG,
           ModelPartBuilder.create()
               .uv(48, 21)
               .mirrored()
-              .cuboid(-3.0f, -1.01f, -1.0f, 4.0f, 10.0f, 4.0f, babyDilation),
+              .cuboid(-3.0f, -1.01f, -1.0f, 4.0f, /* sizeY= */ 11.0f - 1, 4.0f, babyDilation),
           ModelTransform.pivot(4.0f, 14.0f, 7.0f),
       )
       root.addChild(
-          "right_hind_baby_leg",
+          EntityModelPartNames.RIGHT_HIND_LEG,
           ModelPartBuilder.create()
               .uv(48, 21)
-              .cuboid(-1.0f, -1.01f, -1.0f, 4.0f, 10.0f, 4.0f, babyDilation),
+              .cuboid(-1.0f, -1.01f, -1.0f, 4.0f, /* sizeY= */ 11.0f - 1, 4.0f, babyDilation),
           ModelTransform.pivot(-4.0f, 14.0f, 7.0f),
       )
 

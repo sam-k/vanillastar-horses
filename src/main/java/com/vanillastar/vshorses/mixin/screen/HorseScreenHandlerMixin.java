@@ -1,7 +1,7 @@
 package com.vanillastar.vshorses.mixin.screen;
 
 import static com.vanillastar.vshorses.entity.VSHorseEntityHelperKt.isHorselike;
-import static com.vanillastar.vshorses.item.HorseshoeItemKt.HORSESHOE_ITEM;
+import static com.vanillastar.vshorses.item.ModItemsKt.MOD_ITEMS;
 import static com.vanillastar.vshorses.utils.ScreenHelperKt.INVENTORY_SLOT_SIZE_PX;
 
 import com.vanillastar.vshorses.entity.VSHorseEntity;
@@ -77,7 +77,7 @@ public abstract class HorseScreenHandlerMixin extends ScreenHandler {
             null) {
           @Override
           public boolean canInsert(ItemStack stack) {
-            return stack.isOf(HORSESHOE_ITEM)
+            return stack.isOf(MOD_ITEMS.horseshoeItem)
                 && !this.hasStack()
                 && vsHorseEntity.vshorses$canBeShoed();
           }

@@ -1,64 +1,62 @@
 package com.vanillastar.vshorses.render
 
-import com.vanillastar.vshorses.entity.VSHorseEntity
-import com.vanillastar.vshorses.entity.isHorselike
+import com.vanillastar.vshorses.render.HorseshoeEntityModel.Companion.HORSESHOE_BABY_MODEL
 import com.vanillastar.vshorses.render.HorseshoeEntityModel.Companion.HORSESHOE_MODEL
-import com.vanillastar.vshorses.utils.getModIdentifier
+import kotlin.jvm.optionals.getOrNull
 import net.fabricmc.api.EnvType
 import net.fabricmc.api.Environment
-import net.minecraft.client.render.OverlayTexture
-import net.minecraft.client.render.RenderLayer
 import net.minecraft.client.render.VertexConsumerProvider
+import net.minecraft.client.render.entity.equipment.EquipmentRenderer
 import net.minecraft.client.render.entity.feature.FeatureRenderer
 import net.minecraft.client.render.entity.feature.FeatureRendererContext
+import net.minecraft.client.render.entity.model.AbstractHorseEntityModel
 import net.minecraft.client.render.entity.model.EntityModelLoader
 import net.minecraft.client.render.entity.model.HorseEntityModel
+import net.minecraft.client.render.entity.state.LivingHorseEntityRenderState
 import net.minecraft.client.util.math.MatrixStack
-import net.minecraft.entity.passive.AbstractHorseEntity
+import net.minecraft.component.DataComponentTypes
+import net.minecraft.item.equipment.EquipmentModel
 
 @Environment(EnvType.CLIENT)
-class HorseshoeFeatureRenderer<TEntity : AbstractHorseEntity, TModel : HorseEntityModel<TEntity>>(
-    context: FeatureRendererContext<TEntity, TModel>,
+class HorseshoeFeatureRenderer<
+    TState : LivingHorseEntityRenderState,
+    TModel : AbstractHorseEntityModel<TState>,
+>(
+    context: FeatureRendererContext<TState, TModel>,
     loader: EntityModelLoader,
-) : FeatureRenderer<TEntity, TModel>(context) {
-  companion object {
-    private val HORSESHOE_SKIN_ID = getModIdentifier("textures/entity/horse/horseshoe.png")
-  }
-
-  private val model = HorseEntityModel<TEntity>(loader.getModelPart(HORSESHOE_MODEL))
+    private val equipmentRenderer: EquipmentRenderer,
+) : FeatureRenderer<TState, TModel>(context) {
+  private val model = HorseEntityModel(loader.getModelPart(HORSESHOE_MODEL))
+  private val babyModel = HorseEntityModel(loader.getModelPart(HORSESHOE_BABY_MODEL))
 
   override fun render(
       matrices: MatrixStack,
       vertexConsumers: VertexConsumerProvider,
       light: Int,
-      entity: TEntity,
+      state: TState,
       limbAngle: Float,
       limbDistance: Float,
-      tickDelta: Float,
-      animationProgress: Float,
-      headYaw: Float,
-      headPitch: Float,
   ) {
-    if (!isHorselike(entity) || entity !is VSHorseEntity || !entity.`vshorses$isShoed`()) {
+    if (state !is VSHorseEntityRenderState || state.`vshorses$getHorseshoe`().isEmpty) {
       return
     }
 
-    this.contextModel.copyStateTo(this.model)
-    this.model.animateModel(entity, limbAngle, limbDistance, tickDelta)
-    this.model.setAngles(entity, limbAngle, limbDistance, animationProgress, headYaw, headPitch)
-    this.model.render(
-        matrices,
-        vertexConsumers.getBuffer(RenderLayer.getEntityCutoutNoCull(HORSESHOE_SKIN_ID)),
-        light,
-        OverlayTexture.DEFAULT_UV,
-    )
-    if (entity.`vshorses$getHorseshoeInventory`().stack.hasGlint()) {
-      this.model.render(
-          matrices,
-          vertexConsumers.getBuffer(RenderLayer.getEntityGlint()),
-          light,
-          OverlayTexture.DEFAULT_UV,
-      )
+    val itemStack = state.`vshorses$getHorseshoe`()
+    val horseshoeModelId = itemStack.get(DataComponentTypes.EQUIPPABLE)?.model?.getOrNull()
+    if (horseshoeModelId == null) {
+      return
     }
+
+    val entityModel = if (state.baby) this.babyModel else this.model
+    entityModel.setAngles(state)
+    this.equipmentRenderer.render(
+        EquipmentModel.LayerType.HORSE_BODY,
+        horseshoeModelId,
+        entityModel,
+        itemStack,
+        matrices,
+        vertexConsumers,
+        light,
+    )
   }
 }

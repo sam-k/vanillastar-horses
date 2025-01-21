@@ -10,6 +10,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.HorseScreen;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.HorseScreenHandler;
@@ -46,8 +47,8 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
       int mouseX,
       int mouseY,
       CallbackInfo ci,
-      @Local(ordinal = 2) int i,
-      @Local(ordinal = 3) int j) {
+      @Local(name = "i") int i,
+      @Local(name = "j") int j) {
     if (!(this.entity instanceof VSHorseEntity vsHorseEntity
         && vsHorseEntity.vshorses$canBeShoed())) {
       return;
@@ -55,6 +56,7 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
 
     int screenDrawSlot = vsHorseEntity.vshorses$getHorseshoeScreenDrawSlot();
     context.drawGuiTexture(
+        RenderLayer::getGuiTextured,
         HORSESHOE_SLOT_SPRITE_ID,
         i + 7,
         j + (INVENTORY_SLOT_SIZE_PX * (screenDrawSlot + 1)) - 1,

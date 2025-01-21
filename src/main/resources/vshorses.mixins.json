@@ -6,9 +6,11 @@
     "block.AbstractBlockAccessor",
     "block.DispenserBehaviorMixin",
     "block.LeavesBlockMixin",
+    "component.EquippableComponentMixin",
     "entity.AbstractHorseEntityMixin",
     "entity.LivingEntityMixin",
     "item.AnimalArmorItemMixin",
+    "item.EquipmentModelsMixin",
     "item.ItemsMixin",
     "item.SmithingTemplateItemMixin",
     "screen.HorseScreenHandlerMixin"
@@ -20,7 +22,8 @@
     "render.BakedModelManagerMixin",
     "render.EntityModelLayersMixin",
     "render.EntityModelsMixin",
-    "render.HorseArmorFeatureRendererMixin"
+    "render.EquipmentRendererMixin",
+    "render.LivingHorseEntityRenderStateMixin"
   ],
   "injectors": {
     "defaultRequire": 1

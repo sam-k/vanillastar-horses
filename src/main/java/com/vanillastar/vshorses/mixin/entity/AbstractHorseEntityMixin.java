@@ -1,10 +1,17 @@
 package com.vanillastar.vshorses.mixin.entity;
 
-import static com.vanillastar.vshorses.entity.VSHorseEntityHelperKt.EQUIP_HORSESHOE_SOUND;
 import static com.vanillastar.vshorses.entity.VSHorseEntityHelperKt.isHorselike;
-import static com.vanillastar.vshorses.item.HorseshoeItemKt.HORSESHOE_ITEM;
+import static com.vanillastar.vshorses.item.ModItemsKt.MOD_ITEMS;
+import static com.vanillastar.vshorses.sound.ModSoundsKt.MOD_SOUNDS;
 
 import com.vanillastar.vshorses.entity.VSHorseEntity;
+import com.vanillastar.vshorses.networking.HorseshoeDamagePayload;
+import java.util.Objects;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.SharedConstants;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -17,7 +24,6 @@ import net.minecraft.inventory.SingleStackInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
@@ -37,7 +43,7 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity implements V
 
   /** Number of ticks of travel each horseshoe durability point affords. */
   @Unique
-  private static final int TICKS_PER_HORSESHOE_DAMAGE = 20 * 10;
+  private static final int TICKS_PER_HORSESHOE_DAMAGE = 10 * SharedConstants.TICKS_PER_SECOND;
 
   /**
    * Number of ticks this entity has been moving while ridden.
@@ -56,7 +62,9 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity implements V
   private final SingleStackInventory horseshoeInventory = new SingleStackInventory() {
     @Override
     public ItemStack getStack() {
-      return AbstractHorseEntityMixin.this.getEquippedStack(HORSESHOE_ITEM.getEquipmentSlot());
+      return AbstractHorseEntityMixin.this.getEquippedStack((Objects.requireNonNull(
+              MOD_ITEMS.horseshoeItem.getComponents().get(DataComponentTypes.EQUIPPABLE)))
+          .slot());
     }
 
     @Override
@@ -65,10 +73,15 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity implements V
         // Same hack as in `AbstractHorseEntity.onInventoryChanged` to suppress sound playback upon
         // entity initialization.
         if (AbstractHorseEntityMixin.this.age > 20) {
-          AbstractHorseEntityMixin.this.playSound(EQUIP_HORSESHOE_SOUND, 0.5F, 1.0F);
+          AbstractHorseEntityMixin.this.playSound(
+              MOD_SOUNDS.equipHorseshoeSound.value(), 0.5F, 1.0F);
         }
       }
-      AbstractHorseEntityMixin.this.equipLootStack(HORSESHOE_ITEM.getEquipmentSlot(), stack);
+      AbstractHorseEntityMixin.this.equipLootStack(
+          Objects.requireNonNull(
+                  MOD_ITEMS.horseshoeItem.getComponents().get(DataComponentTypes.EQUIPPABLE))
+              .slot(),
+          stack);
     }
 
     @Override
@@ -113,7 +126,7 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity implements V
 
   @Override
   public boolean vshorses$isShoed() {
-    return this.horseshoeInventory.getStack().isOf(HORSESHOE_ITEM);
+    return this.horseshoeInventory.getStack().isOf(MOD_ITEMS.horseshoeItem);
   }
 
   @Override
@@ -124,26 +137,26 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity implements V
   @Inject(method = "createBaseHorseAttributes", at = @At(value = "RETURN"), cancellable = true)
   private static void addWaterMovementEfficiencyAttribute(
       @NotNull CallbackInfoReturnable<DefaultAttributeContainer.Builder> cir) {
-    cir.setReturnValue(
-        cir.getReturnValue().add(EntityAttributes.GENERIC_WATER_MOVEMENT_EFFICIENCY, 0.3D));
+    cir.setReturnValue(cir.getReturnValue().add(EntityAttributes.WATER_MOVEMENT_EFFICIENCY, 0.3D));
   }
 
-  @Inject(method = "tickControlled", at = @At("TAIL"))
+  @Inject(method = "tickControlled", at = @At("HEAD"))
+  @Environment(EnvType.CLIENT)
   private void damageHorseshoeOnTickControlled(
-      @NotNull PlayerEntity controllingPlayer, @NotNull Vec3d movementInput, CallbackInfo ci) {
-    if (!(this.getWorld() instanceof ServerWorld)
-        || !isHorselike(this)
-        || !this.vshorses$isShoed()) {
+      @NotNull PlayerEntity controllingPlayer, Vec3d movementInput, CallbackInfo ci) {
+    if (!this.getWorld().isClient || !isHorselike(this) || !this.vshorses$isShoed()) {
       return;
     }
+
     if (controllingPlayer.forwardSpeed == 0.0F && controllingPlayer.sidewaysSpeed == 0.0F) {
       // Entity is not being directed to move.
       return;
     }
 
-    movingWhileRiddenTicks = (movingWhileRiddenTicks + 1) % TICKS_PER_HORSESHOE_DAMAGE;
-    if (movingWhileRiddenTicks == 0) {
-      this.horseshoeInventory.getStack().damage(1, this, EquipmentSlot.FEET);
+    movingWhileRiddenTicks++;
+    if (movingWhileRiddenTicks >= TICKS_PER_HORSESHOE_DAMAGE) {
+      ClientPlayNetworking.send(new HorseshoeDamagePayload(this.getId()));
+      movingWhileRiddenTicks = 0;
     }
   }
 
@@ -151,7 +164,7 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity implements V
   private void writeHorseshoeDataToNbt(NbtCompound nbt, CallbackInfo ci) {
     ItemStack stack = this.horseshoeInventory.getStack();
     if (!stack.isEmpty()) {
-      nbt.put(HORSESHOE_INVENTORY_SLOT_NBT_TAG, stack.encode(this.getRegistryManager()));
+      nbt.put(HORSESHOE_INVENTORY_SLOT_NBT_TAG, stack.toNbt(this.getRegistryManager()));
     }
   }
 
@@ -163,7 +176,7 @@ public abstract class AbstractHorseEntityMixin extends AnimalEntity implements V
     ItemStack stack = ItemStack.fromNbt(
             this.getRegistryManager(), nbt.getCompound(HORSESHOE_INVENTORY_SLOT_NBT_TAG))
         .orElse(ItemStack.EMPTY);
-    if (stack.isOf(HORSESHOE_ITEM)) {
+    if (stack.isOf(MOD_ITEMS.horseshoeItem)) {
       this.horseshoeInventory.setStack(stack);
     }
   }
