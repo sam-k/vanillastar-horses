@@ -9,8 +9,8 @@
 Ride horses in your world again!
 
 This mod is a long-needed update to horses that still stays within the spirit of vanilla Minecraft.
-It improves horse movement, lets you customize horse armor, adds horseshoes for walking across
-rivers, and more.
+It improves horse movement, lets you trim and enchant horse armor, adds horseshoes for walking
+across rivers, and more.
 
 ## <img src=".github/assets/spyglass.png" style="height: 1em" alt="Spyglass"> Overview
 
@@ -50,12 +50,10 @@ horseshoes, it lets your horse run across water with ease.)
 - Support **trimming** with all armor trims
 - Add **durability** according to its material
 - Miscellaneous fixes for existing bugs:
-  - [`MC-16829`](https://bugs.mojang.com/browse/MC-16829): The horse armor model does not show the
-    enchantment glint effect
-  - [`MC-275395`](https://bugs.mojang.com/browse/MC-275395): Some model parts of horse armor do not
-    have a visible 0.1F cube deformation
-  - [`MC-275574`](https://bugs.mojang.com/browse/MC-275574): Rendered horse armor textures are
-    asymmetric
+  - [`MC-16829`](https://bugs.mojang.com/browse/MC-16829): ~~The horse armor model does not show the enchantment glint effect~~ (Fixed
+    in [JE 1.21.2](https://minecraft.wiki/w/Java_Edition_1.21.2))
+  - [`MC-275395`](https://bugs.mojang.com/browse/MC-275395): Some model parts of horse armor do not have a visible 0.1F cube deformation
+  - [`MC-275574`](https://bugs.mojang.com/browse/MC-275574): Rendered horse armor textures are asymmetric
 
 ### Horseshoe
 
@@ -65,22 +63,20 @@ horseshoes, it lets your horse run across water with ease.)
 - Support **enchanting** with all generic and boots-specific enchantments (Depth Strider, Feather
   Falling, Frost Walker, Soul Speed)
 - De-facto fixes for existing bugs:
-  - [`MC-268935`](https://bugs.mojang.com/browse/MC-268935): The frost walker enchantment doesn’t
-    function on horse armor
-  - [`MC-268936`](https://bugs.mojang.com/browse/MC-268936): The soul speed enchantment doesn’t
-    function on horse armor
+  - [`MC-268935`](https://bugs.mojang.com/browse/MC-268935): The frost walker enchantment doesn’t function on horse armor
+  - [`MC-268936`](https://bugs.mojang.com/browse/MC-268936): The soul speed enchantment doesn’t function on horse armor
 
 ## <img src=".github/assets/filled_map.png" style="height: 1em" alt="Filled Map"> Installation
 
 ### Requirements
 
-As a Fabric mod, this mod requires the [Fabric Loader](https://fabricmc.net/). It also needs the
-following dependencies:
+As a Fabric mod, this mod requires the [Fabric Loader](https://fabricmc.net/). It also needs the following
+dependencies:
 
 - <img src="https://cdn.modrinth.com/data/P7dR8mSH/icon.png" style="height: 1em" alt="Fabric API"> [Fabric API](https://modrinth.com/mod/fabric-api)
-- <img src="https://cdn.modrinth.com/data/Ha28R6CL/icon.png" style="height: 1em" alt="Fabric Language Kotlin"> [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin)
+- <img src="https://cdn.modrinth.com/data/Ha28R6CL/72c3d74aeb665e45aea93a945a01474cbce3b7da_96.webp" style="height: 1em" alt="Fabric Language Kotlin"> [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin)
 
 ### Downloads
 
-You can find downloadable versions of the mod in the
-[Releases](https://github.com/sam-k/vanillastar-horses/releases) page.
+You can find downloadable versions of the mod in the [Releases](https://github.com/sam-k/vanillastar-horses/releases)
+page.
