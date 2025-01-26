@@ -5,10 +5,10 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-  id("fabric-loom") version "1.7-SNAPSHOT"
+  id("fabric-loom") version "1.9-SNAPSHOT"
   id("maven-publish")
-  kotlin("jvm") version "2.0.20"
-  id("com.diffplug.spotless") version "7.0.0.BETA2"
+  kotlin("jvm") version "2.1.0"
+  id("com.diffplug.spotless") version "7.0.2"
 }
 
 val gradle_version: String by project
@@ -115,7 +115,7 @@ extensions.configure<SpotlessExtension>("spotless") {
     )
 
     trimTrailingWhitespace()
-    indentWithSpaces(2)
+    leadingTabsToSpaces(2)
     endWithNewline()
   }
 

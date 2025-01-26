@@ -1,5 +1,6 @@
 package com.vanillastar.vshorses.mixin.render;
 
+import static com.vanillastar.vshorses.render.HorseshoeEntityModel.HORSESHOE_BABY_MODEL;
 import static com.vanillastar.vshorses.render.HorseshoeEntityModel.HORSESHOE_MODEL;
 
 import com.google.common.collect.ImmutableMap;
@@ -34,13 +35,17 @@ public abstract class EntityModelsMixin {
                   "Lcom/google/common/collect/ImmutableMap$Builder;put(Ljava/lang/Object;Ljava/lang/Object;)Lcom/google/common/collect/ImmutableMap$Builder;",
               remap = false))
   private static void addHorseArmorModel(@NotNull Args args) {
-    // `EntityModelLayer key`.
-    if (args.get(0) != EntityModelLayers.HORSE_ARMOR) {
-      return;
+    EntityModelLayer key = args.get(0);
+    if (key == EntityModelLayers.HORSE_ARMOR) {
+      args.set(
+          1, // `TexturedModelData value`
+          TexturedModelData.of(HorseArmorEntityModel.getModelData(new Dilation(0.1F)), 64, 64));
+    } else if (key == EntityModelLayers.HORSE_ARMOR_BABY) {
+      args.set(
+          1, // `TexturedModelData value`
+          TexturedModelData.of(
+              HorseArmorEntityModel.getBabyHorseModelData(new Dilation(0.1F)), 64, 64));
     }
-    // `TexturedModelData value`.
-    args.set(
-        1, TexturedModelData.of(HorseArmorEntityModel.getModelData(new Dilation(0.1F)), 64, 64));
   }
 
   @Inject(
@@ -57,5 +62,9 @@ public abstract class EntityModelsMixin {
     builder.put(
         HORSESHOE_MODEL,
         TexturedModelData.of(HorseshoeEntityModel.getModelData(new Dilation(0.1F)), 64, 64));
+    builder.put(
+        HORSESHOE_BABY_MODEL,
+        TexturedModelData.of(
+            HorseshoeEntityModel.getBabyHorseModelData(new Dilation(0.1F)), 64, 64));
   }
 }

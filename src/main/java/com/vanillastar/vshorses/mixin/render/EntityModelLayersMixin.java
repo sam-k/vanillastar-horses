@@ -1,5 +1,6 @@
 package com.vanillastar.vshorses.mixin.render;
 
+import static com.vanillastar.vshorses.render.HorseshoeEntityModel.HORSESHOE_BABY_MODEL;
 import static com.vanillastar.vshorses.render.HorseshoeEntityModel.HORSESHOE_MODEL;
 import static com.vanillastar.vshorses.utils.LoggerHelperKt.getMixinLogger;
 
@@ -24,21 +25,22 @@ public abstract class EntityModelLayersMixin {
   @Unique
   private static final Logger LOGGER = getMixinLogger();
 
+  @Unique
+  private static final Set<EntityModelLayer> HORSESHOE_MODEL_LAYERS =
+      Set.of(HORSESHOE_MODEL, HORSESHOE_BABY_MODEL);
+
   @Shadow
   @Final
   private static Set<EntityModelLayer> LAYERS;
 
   @Inject(method = "getLayers", at = @At("HEAD"))
   private static void addHorseshoeModelLayer(CallbackInfoReturnable<Stream<EntityModelLayer>> cir) {
-    // Add `HORSESHOE_MODEL` to private field `LAYERS` the first time it is accessed.
-    if (LAYERS.contains(HORSESHOE_MODEL)) {
-      return;
-    }
-
-    if (LAYERS.add(HORSESHOE_MODEL)) {
-      LOGGER.info("Registered entity model layer {}", HORSESHOE_MODEL);
-    } else {
-      throw new IllegalStateException("Duplicate registration for " + HORSESHOE_MODEL);
+    for (EntityModelLayer horseshoeModelLayer : HORSESHOE_MODEL_LAYERS) {
+      // Add model layer to private field `LAYERS` the first time it is accessed.
+      if (!LAYERS.contains(horseshoeModelLayer)) {
+        LAYERS.add(horseshoeModelLayer);
+        LOGGER.info("Registered entity model layer {}", horseshoeModelLayer);
+      }
     }
   }
 }

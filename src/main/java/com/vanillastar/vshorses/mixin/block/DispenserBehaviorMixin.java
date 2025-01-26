@@ -1,6 +1,6 @@
 package com.vanillastar.vshorses.mixin.block;
 
-import static com.vanillastar.vshorses.item.HorseshoeItemKt.HORSESHOE_ITEM;
+import static com.vanillastar.vshorses.item.ModItemsKt.MOD_ITEMS;
 import static com.vanillastar.vshorses.utils.LoggerHelperKt.getMixinLogger;
 
 import com.vanillastar.vshorses.entity.VSHorseEntity;
@@ -24,7 +24,7 @@ public interface DispenserBehaviorMixin {
   private static void registerHorseshoeBehavior(CallbackInfo ci) {
     Logger LOGGER = getMixinLogger();
 
-    DispenserBlock.registerBehavior(HORSESHOE_ITEM, new FallibleItemDispenserBehavior() {
+    DispenserBlock.registerBehavior(MOD_ITEMS.horseshoeItem, new FallibleItemDispenserBehavior() {
       @Override
       public ItemStack dispenseSilently(BlockPointer pointer, ItemStack stack) {
         // Closing this resource will close the server.
@@ -47,6 +47,6 @@ public interface DispenserBehaviorMixin {
         return stack;
       }
     });
-    LOGGER.info("Registered dispenser behavior for item {}", HORSESHOE_ITEM.getId());
+    LOGGER.info("Registered dispenser behavior for item {}", MOD_ITEMS.horseshoeItem);
   }
 }

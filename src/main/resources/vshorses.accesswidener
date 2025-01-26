@@ -2,4 +2,6 @@ accessWidener v2 named
 
 accessible class net/minecraft/data/client/ItemModelGenerator$TrimMaterial
 accessible field net/minecraft/data/client/ItemModelGenerator TRIM_MATERIALS Ljava/util/List;
+accessible field net/minecraft/item/AnimalArmorItem type Lnet/minecraft/item/AnimalArmorItem$Type;
+accessible field net/minecraft/item/AnimalArmorItem$Type allowedEntities Lnet/minecraft/registry/entry/RegistryEntryList;
 accessible class net/minecraft/screen/slot/ArmorSlot

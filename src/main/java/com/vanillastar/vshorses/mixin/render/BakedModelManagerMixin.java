@@ -1,12 +1,10 @@
 package com.vanillastar.vshorses.mixin.render;
 
 import static com.vanillastar.vshorses.render.HorseArmorTrimAtlasKt.HORSE_ARMOR_TRIM_ENTITY_ATLAS;
-import static com.vanillastar.vshorses.render.HorseArmorTrimAtlasKt.HORSE_ARMOR_TRIM_ITEM_ATLAS;
+import static com.vanillastar.vshorses.render.TextureAtlasHelperKt.getTextureAtlasId;
 import static com.vanillastar.vshorses.utils.LoggerHelperKt.getMixinLogger;
 
-import com.vanillastar.vshorses.render.TextureAtlasHelperKt;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import net.fabricmc.api.EnvType;
@@ -14,11 +12,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.render.model.BakedModelManager;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
-import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -28,10 +22,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class BakedModelManagerMixin {
   /** Map of all atlas texture IDs to corresponding atlas IDs. */
   @Unique
-  private static final Map<Identifier, Identifier> TEXTURE_TO_ATLAS_MAP = Stream.of(
-          HORSE_ARMOR_TRIM_ENTITY_ATLAS, HORSE_ARMOR_TRIM_ITEM_ATLAS)
-      .collect(Collectors.toUnmodifiableMap(
-          TextureAtlasHelperKt::getTextureAtlasId, Function.identity()));
+  private static final Map<Identifier, Identifier> TEXTURE_TO_ATLAS_MAP =
+      Map.of(getTextureAtlasId(HORSE_ARMOR_TRIM_ENTITY_ATLAS), HORSE_ARMOR_TRIM_ENTITY_ATLAS);
 
   @Unique
   private static final Logger LOGGER = getMixinLogger();
