@@ -53,9 +53,9 @@ public abstract class EquipmentRendererMixin {
                   "Lnet/minecraft/client/model/Model;render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumer;II)V"))
   private void renderHorseArmorTrim(
       Args args,
-      @Local(name = "layerType") EquipmentModel.LayerType layerType,
-      @Local(name = "stack") ItemStack stack,
-      @Local(name = "vertexConsumers") VertexConsumerProvider vertexConsumers) {
+      @Local(ordinal = 0, argsOnly = true) EquipmentModel.LayerType layerType,
+      @Local(ordinal = 0, argsOnly = true) ItemStack stack,
+      @Local(ordinal = 0, argsOnly = true) VertexConsumerProvider vertexConsumers) {
     if (layerType != EquipmentModel.LayerType.HORSE_BODY) {
       return;
     }

@@ -1,7 +1,9 @@
 package com.vanillastar.vshorses.mixin.item;
 
 import net.minecraft.item.AnimalArmorItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.item.equipment.ArmorMaterial;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,8 +26,14 @@ public abstract class ItemsMixin {
                   "Lnet/minecraft/item/AnimalArmorItem;<init>(Lnet/minecraft/item/equipment/ArmorMaterial;Lnet/minecraft/item/AnimalArmorItem$Type;Lnet/minecraft/registry/entry/RegistryEntry;ZLnet/minecraft/item/Item$Settings;)V"))
   private static void makeHorseArmorDamageable(@NotNull Args args) {
     AnimalArmorItem.Type type = args.get(1);
-    if (type == AnimalArmorItem.Type.EQUESTRIAN) {
-      args.set(3, true); // `boolean damageOnHurt`
+    if (type != AnimalArmorItem.Type.EQUESTRIAN) {
+      return;
     }
+
+    ArmorMaterial material = args.get(0);
+    Item.Settings settings = args.get(4);
+
+    args.set(3, true); // `boolean damageOnHurt`
+    args.set(4, settings.enchantable(material.enchantmentValue())); // `Settings settings`
   }
 }

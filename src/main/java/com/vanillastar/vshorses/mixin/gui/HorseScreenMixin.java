@@ -47,8 +47,9 @@ public abstract class HorseScreenMixin extends HandledScreen<HorseScreenHandler>
       int mouseX,
       int mouseY,
       CallbackInfo ci,
-      @Local(name = "i") int i,
-      @Local(name = "j") int j) {
+      // int ordinals: 0 = `mouseX`, 1 = `mouseY`
+      @Local(ordinal = 2) int i,
+      @Local(ordinal = 3) int j) {
     if (!(this.entity instanceof VSHorseEntity vsHorseEntity
         && vsHorseEntity.vshorses$canBeShoed())) {
       return;
